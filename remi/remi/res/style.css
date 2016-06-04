@@ -460,13 +460,13 @@ body {
 }
  */
 label.slider-v1 {
-  margin: 0.4em auto !important;
+  /* margin: 0.4em auto !important; */
   line-height: 3em;
   text-indent: -12em;
   float: none !important;
 }
 
-input {
+input[type='checkbox'] {
   position: absolute;
   left: -9999px;
 }

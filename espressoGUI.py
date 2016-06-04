@@ -13,17 +13,21 @@ class Espresso(App):
         super(Espresso, self).__init__(*args)
 
     def main(self):
-        verticalContainer = gui.Widget(width=400)
-        horizontalContainer = gui.Widget(width='100%', layout_orientation=gui.Widget.LAYOUT_HORIZONTAL)
-        subContainer = gui.Widget()
-        subContainer.style['display'] = 'inline'
-        subContainer.style['overflow'] = 'auto'
+        mainContainer = gui.Widget(width=320)
+        verticalContainer = gui.Widget(width='100%', layout_orientation=gui.Widget.LAYOUT_VERTICAL)
+        verticalContainer.style['text-align'] = 'center'
+        verticalContainer.style['margin'] = '2em auto'
+        
+        subContainer = gui.Widget(width='auto', height=160)
         subContainer.style['text-align'] = 'center'
+        
+        switchContainer = gui.Widget(width='auto', height=160)
+        switchContainer.style['text-align'] = 'center'
         
         self.power = False
         self.powerSwitch = gui.PrettySwitch('Power', False)
         self.powerSwitch.attributes['class'] = 'switch'
-        self.powerSwitch.style['height'] = '72px'
+        self.powerSwitch.style['height'] = '52px'
         self.powerSwitch._label.attributes['for'] = 's1'
         self.powerSwitch._label.attributes['class'] = 'slider-v1'
         self.powerSwitch._checkbox.attributes['id'] = 's1'
@@ -32,23 +36,23 @@ class Espresso(App):
         self.steam = False
         self.steamSwitch = gui.PrettySwitch('Steam', False)
         self.steamSwitch.attributes['class'] = 'switch'
-        self.steamSwitch.style['height'] = '72px'
+        self.steamSwitch.style['height'] = '52px'
         self.steamSwitch._label.attributes['for'] = 's2'
         self.steamSwitch._label.attributes['class'] = 'slider-v1'
         self.steamSwitch._checkbox.attributes['id'] = 's2'
         self.steamSwitch._label.set_on_mouseup_listener(self, 'on_steam_change')
         
         self.count = 0
-        self.counter = gui.Label('', width=200, height=30, margin='10px')
-        self.lbl = gui.Label('This is a LABEL!', width=200, height=30, margin='10px')
+        self.counter = gui.Label('', width=200, height=30)
+        self.lbl = gui.Label('This is a LABEL!', width=200, height=30)
         
-        self.bt = gui.Button('Press me!', width=200, height=30, margin='10px')
+        self.bt = gui.Button('Press me!', width=200, height=30)
         self.bt.set_on_click_listener(self, 'on_button_pressed')
 
-        self.spin = gui.SpinBox('96', 92, 102, 1, width=200, height=30, margin='10px')
+        self.spin = gui.SpinBox('96', 92, 102, 1, width=200, height=30)
         self.spin.set_on_change_listener(self, 'on_spin_change')
 
-        self.slider = gui.Slider('96', 92, 102, 1, width=200, height=20, margin='10px')
+        self.slider = gui.Slider('96', 92, 102, 1, width=200, height=20)
         self.slider.set_on_change_listener(self, 'slider_changed')
         
         subContainer.append(self.counter)
@@ -56,11 +60,11 @@ class Espresso(App):
         subContainer.append(self.bt)
         subContainer.append(self.spin)
         subContainer.append(self.slider)
-        subContainer.append(self.powerSwitch)
-        subContainer.append(self.steamSwitch)
-        self.subContainer = subContainer
-        horizontalContainer.append(subContainer)
-        verticalContainer.append(horizontalContainer)
+        switchContainer.append(self.powerSwitch)
+        self.switchContainer = switchContainer
+        verticalContainer.append(switchContainer)
+        verticalContainer.append(subContainer)
+        mainContainer.append(verticalContainer)
 
         self.display_counter()
 
@@ -68,12 +72,17 @@ class Espresso(App):
         return verticalContainer
         
     def on_power_change(self, x, y):
-        self.power = not self.power        
+        self.power = not self.power  
+        self.powerSwitch._checkbox.set_value(self.power)      
         if self.power:
             self.lbl.set_text('ON')
+            time.sleep(0.25)
+            self.switchContainer.append(self.steamSwitch)
         else:
             self.lbl.set_text('OFF')
-        self.powerSwitch._checkbox.set_value(self.power)
+            time.sleep(0.25)
+            self.switchContainer.remove_child(self.steamSwitch)
+
         
     def on_steam_change(self, x, y):
         self.steam = not self.steam        

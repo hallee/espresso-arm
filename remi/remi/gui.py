@@ -1701,7 +1701,7 @@ class Input(Widget):
 
     def onchange(self, value):
         #0 hinibits the unwanted gui update that causes focus lost and difficulties in editing
-        self.attributes.__setitem__('value', value, 1)
+        self.attributes.__setitem__('value', value, 0)
         return self.eventManager.propagate(self.EVENT_ONCHANGE, [value])
 
     @decorate_set_on_listener("onchange", "(self,new_value)")
@@ -1749,6 +1749,20 @@ class PrettySwitch(Widget):
         self.get_value = self._checkbox.get_value
         self.set_on_change_listener = self._checkbox.set_on_change_listener
         self.onchange = self._checkbox.onchange
+    def set_enabled(self, enabled):
+        """
+        Enables or disables the Button.
+    
+        Args:
+            enabled (bool): If true te button is enabled and so the user can press it.
+        """
+        if enabled:
+            try:
+                del self.attributes['disabled']
+            except KeyError:
+                pass
+        else:
+            self.attributes['disabled'] = None
 
 class CheckBoxLabel(Widget):
     @decorate_constructor_parameter_types([str, bool, str])
