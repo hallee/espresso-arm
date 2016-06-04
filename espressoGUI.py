@@ -55,12 +55,18 @@ class Espresso(App):
         self.slider = gui.Slider('96', 92, 102, 1, width=200, height=20)
         self.slider.set_on_change_listener(self, 'slider_changed')
         
+        self.dummyUpdated = gui.Label('') # Blank widget to add to the page for forcing an update.
+        # When a switch changes from a remote GUI, the local GUI doesn't update automagically.
+        # So, forcing an update by adding this dummy to the scene. 
+        # Replace with something better eventually.
+        
         subContainer.append(self.counter)
         subContainer.append(self.lbl)
         subContainer.append(self.bt)
         subContainer.append(self.spin)
         subContainer.append(self.slider)
         switchContainer.append(self.powerSwitch)
+        switchContainer.append(self.dummyUpdated)
         self.switchContainer = switchContainer
         verticalContainer.append(switchContainer)
         verticalContainer.append(subContainer)
@@ -76,12 +82,14 @@ class Espresso(App):
         self.powerSwitch._checkbox.set_value(self.power)      
         if self.power:
             self.lbl.set_text('ON')
+            self.steamSwitch._checkbox.set_value(False)
             time.sleep(0.25)
             self.switchContainer.append(self.steamSwitch)
         else:
             self.lbl.set_text('OFF')
             time.sleep(0.25)
             self.switchContainer.remove_child(self.steamSwitch)
+            self.steam = False
 
         
     def on_steam_change(self, x, y):
@@ -91,6 +99,9 @@ class Espresso(App):
         else:
             self.lbl.set_text('Steam OFF')
         self.steamSwitch._checkbox.set_value(self.steam)
+        time.sleep(0.25)
+        self.switchContainer.remove_child(self.dummyUpdated)
+        self.switchContainer.append(self.dummyUpdated)
 
     def display_counter(self):
         self.counter.set_text('Running Time: ' + str(self.count))
