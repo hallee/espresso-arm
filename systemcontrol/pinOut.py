@@ -43,11 +43,11 @@ class SoftwarePWM:
             
 # class HeaterControl:
     
-    
-def main():
-    controller = SoftwarePWM(27)
-    controller.pwmUpdate(25, 1)
-		
-
-if __name__ == '__main__':
-    main()
+#     
+# def main():
+#     controller = SoftwarePWM(27)
+#     controller.pwmUpdate(25, 1)
+#         
+# 
+# if __name__ == '__main__':
+#     main()

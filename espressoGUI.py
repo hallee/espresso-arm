@@ -2,9 +2,9 @@
 GUI Comment
 """
 
-import remi.gui as gui
-from remi import start, App
+from remi import start, gui, App
 from threading import Timer
+from systemcontrol.pinOut import SoftwarePWM
 import time
 
 
@@ -13,6 +13,9 @@ class Espresso(App):
         super(Espresso, self).__init__(*args)
 
     def main(self):
+        self.setTemp = 94
+        self.boilerTemp = 90
+        
         mainContainer = gui.Widget(width=320)
         verticalContainer = gui.Widget(width='100%', layout_orientation=gui.Widget.LAYOUT_VERTICAL)
         verticalContainer.style['text-align'] = 'center'
@@ -27,7 +30,7 @@ class Espresso(App):
         self.power = False
         self.powerSwitch = gui.PrettySwitch('Power', False)
         self.powerSwitch.attributes['class'] = 'switch'
-        self.powerSwitch.style['height'] = '52px'
+        self.powerSwitch.style['height'] = '58px'
         self.powerSwitch._label.attributes['for'] = 's1'
         self.powerSwitch._label.attributes['class'] = 'slider-v1'
         self.powerSwitch._checkbox.attributes['id'] = 's1'
@@ -36,11 +39,19 @@ class Espresso(App):
         self.steam = False
         self.steamSwitch = gui.PrettySwitch('Steam', False)
         self.steamSwitch.attributes['class'] = 'switch'
-        self.steamSwitch.style['height'] = '52px'
+        self.steamSwitch.style['height'] = '58px'
         self.steamSwitch._label.attributes['for'] = 's2'
         self.steamSwitch._label.attributes['class'] = 'slider-v1'
         self.steamSwitch._checkbox.attributes['id'] = 's2'
         self.steamSwitch._label.set_on_mouseup_listener(self, 'on_steam_change')
+        
+        self.tempLabel = gui.Label(str(self.boilerTemp)+' ')
+        self.tempLabel.attributes['class'] = 'tempLabel'
+        self.tempLabel.style['display'] = 'inline'
+
+        self.degreeLabel = gui.Label(u'\N{DEGREE SIGN}'+'C')
+        self.degreeLabel.attributes['class'] = 'degreeLabel'
+        self.degreeLabel.style['display'] = 'inline'
         
         self.count = 0
         self.counter = gui.Label('', width=200, height=30)
@@ -60,11 +71,13 @@ class Espresso(App):
         # So, forcing an update by adding this dummy to the scene. 
         # Replace with something better eventually.
         
-        subContainer.append(self.counter)
-        subContainer.append(self.lbl)
-        subContainer.append(self.bt)
-        subContainer.append(self.spin)
-        subContainer.append(self.slider)
+        # subContainer.append(self.counter)
+        # subContainer.append(self.lbl)
+        # subContainer.append(self.bt)
+        # subContainer.append(self.spin)
+        # subContainer.append(self.slider)
+        subContainer.append(self.tempLabel)
+        subContainer.append(self.degreeLabel)
         switchContainer.append(self.powerSwitch)
         switchContainer.append(self.dummyUpdated)
         self.switchContainer = switchContainer
@@ -124,5 +137,6 @@ class Espresso(App):
 if __name__ == "__main__":
     # optional parameters
     # start(MyApp,address='127.0.0.1', port=8081, multiple_instance=False,enable_file_cache=True, update_interval=0.1, start_browser=True)
-
-    start(Espresso, debug=True, address='0.0.0.0')        
+    controller = SoftwarePWM(27)
+    controller.pwmUpdate(25, 1) 
+    start(Espresso, debug=True, address='0.0.0.0')  
