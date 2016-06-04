@@ -8,7 +8,7 @@
     src: local('Roboto'), local('Roboto-Regular'), url('/res/font.woff2') format('woff2');
 }
 textarea:focus,
-input[type='checkbox']:focus,
+/* input[type='checkbox']:focus, */
 input[type='color']:focus,
 input[type='number']:focus,
 input[type='date']:focus,
@@ -37,13 +37,9 @@ video {
 textarea {
     resize: vertical
 }
-a,
-a:visited {
-    text-decoration: underline
-}
-html {
+/* html {
     height: 100%;
-}
+} */
 body {
     width: 100%;
     margin: 0px;
@@ -53,6 +49,7 @@ body {
     font-size: 14px;
     font-weight: 400;
     min-height: 100%;
+    background: #fefcf8
 }
 *[hidden] {
     display: none!important
@@ -66,81 +63,15 @@ h6,
 p {
     padding: 0
 }
-h1 small,
-h2 small,
-h3 small,
-h4 small,
-h5 small,
-h6 small {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400;
-    line-height: 1.35;
-    letter-spacing: -.02em;
-    opacity: .54;
-    font-size: .6em
-}
-h1 {
-    font-size: 56px;
-    line-height: 1.35;
-    letter-spacing: -.02em;
-    margin: 24px 0
-}
-h1,
-h2 {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400
-}
-h2 {
-    font-size: 45px;
-    line-height: 48px
-}
-h2,
-h3 {
-    margin: 24px 0
-}
-h3 {
-    font-size: 34px;
-    line-height: 40px
-}
-h3,
-h4 {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400
-}
-h4 {
-    font-size: 24px;
-    line-height: 32px;
-    -moz-osx-font-smoothing: grayscale;
-    margin: 24px 0 16px
-}
-h5 {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: .02em
-}
-h5,
-h6 {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    margin: 24px 0 16px
-}
-h6 {
-    font-size: 16px;
-    letter-spacing: .04em
-}
-h6,
-p {
-    font-weight: 400;
-    line-height: 24px
-}
 p {
     font-size: 14px;
+    line-height: 24px;
     letter-spacing: 0;
     margin: 0 0 16px
 }
 a {
     color: rgba(33, 150, 243, .8);
-    font-weight: 500
+    font-weight: 500;
 }
 blockquote {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -149,7 +80,7 @@ blockquote {
     font-weight: 300;
     font-style: italic;
     line-height: 1.35;
-    letter-spacing: .08em
+    letter-spacing: .08em;
 }
 blockquote:before {
     position: absolute;
@@ -183,14 +114,14 @@ ol {
     line-height: 24px
 }
 .RaisedFrame {
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
+    /* box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2); */
     z-index: 1;
 }
 body>div {
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
+    /* box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2); */
 }
 div {
-    background-color: white;
+    /* background-color: white; */
     z-index: 0;
 }
 .ListView {
@@ -228,11 +159,11 @@ select {
     color: inherit;
     padding: 0;
 }
-input[type='checkbox'] {
+/* input[type='checkbox'] {
     height: 100%;
     min-height: 20px;
     min-width: 20px;
-}
+} */
 button {
     background: 0 0;
     border: none;
@@ -390,7 +321,7 @@ input.file {
     background: rgb(33, 150, 243);
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
 }
-input[type='range'] {
+/* input[type='range'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -509,4 +440,80 @@ input[type='range']:disabled:active::-moz-range-thumb,
 input[type='range']:disabled::-moz-range-thumb {
     transform: scale(.667);
     background: rgba(0, 0, 0, .26)
+} */
+
+/* html, body {
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(#f7f7f7, #e0e0e0);
+  margin: 0;
+}
+
+.wrap {
+  position: relative;
+  width: 33.33%;
+  margin: -72px 0;
+  top: 50%;
+  float: left;
+}
+ */
+label.slider-v1 {
+  margin: 0.4em auto !important;
+  line-height: 3em;
+  text-indent: -12em;
+  float: none !important;
+}
+
+input {
+  position: absolute;
+  left: -9999px;
+}
+
+.slider-v1 {
+  position: relative;
+  display: block;
+  width: 5.5em;
+  height: 3em;
+  cursor: pointer;
+  border-radius: 1.5em;
+  transition: 350ms;
+  background: linear-gradient(rgba(0, 0, 0, 0.07), rgba(255, 255, 255, 0)), #ddd;
+  box-shadow: 0 0.07em 0.1em -0.1em rgba(0, 0, 0, 0.4) inset, 0 0.05em 0.08em -0.01em rgba(255, 255, 255, 0.7);
+}
+
+.slider-v1::before {
+  position: absolute;
+  content: '';
+  width: 2em;
+  height: 2em;
+  top: 0.5em;
+  left: 0.5em;
+  border-radius: 50%;
+  transition: 250ms ease-in-out;
+  background: linear-gradient(#f5f5f5 10%, #eeeeee);
+  box-shadow: 0 0.1em 0.15em -0.05em rgba(255, 255, 255, 0.9) inset, 0 0.5em 0.3em -0.1em rgba(0, 0, 0, 0.25);
+}
+
+.slider-v1::after {
+  position: absolute;
+  content: '';
+  width: 1em;
+  height: 1em;
+  top: 1em;
+  left: 6em;
+  border-radius: 50%;
+  transition: 250ms ease-in;
+  background: linear-gradient(rgba(0, 0, 0, 0.07), rgba(255, 255, 255, 0.1)), #ddd;
+  box-shadow: 0 0.08em 0.15em -0.1em rgba(0, 0, 0, 0.5) inset, 0 0.05em 0.08em -0.01em rgba(255, 255, 255, 0.7), -7.25em 0 0 -0.25em rgba(0, 0, 0, 0.3);
+}
+
+input:checked + .slider-v1::after {
+  background: linear-gradient(rgba(0, 0, 0, 0.07), rgba(255, 255, 255, 0.1)), #4c6;
+  box-shadow: 0 0.08em 0.15em -0.1em rgba(0, 0, 0, 0.5) inset, 0 0.05em 0.08em -0.01em rgba(255, 255, 255, 0.7), -7.25em 0 0 -0.25em rgba(0, 0, 0, 0.12);
+}
+
+input:checked + .slider-v1::before {
+  left: 3em;
 }

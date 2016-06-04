@@ -820,7 +820,7 @@ class VBox(HBox):
     def __init__(self, **kwargs):
         super(VBox, self).__init__(**kwargs)
         self.style['flex-direction'] = 'column'
-
+        
 
 class Button(Widget):
     """The Button widget. Have to be used in conjunction with its event onclick.
@@ -1023,6 +1023,36 @@ class Label(Widget):
         """
         super(Label, self).__init__(**kwargs)
         self.type = 'p'
+        self.set_text(text)
+
+    def set_text(self, text):
+        """Sets the text content.
+
+        Args:
+            text (str): The string content that have to be appended as standard child identified by the key 'text'
+        """
+        self.add_child('text', text)
+
+    def get_text(self):
+        """
+        Returns:
+            str: The text content of the label. You can set the text content with set_text(text).
+        """
+        return self.get_child('text')
+
+class HTMLLabel(Widget):
+    """Non editable text label widget. Set its content by means of set_text function, and retrieve its content with the
+    function get_text.
+    """
+    @decorate_constructor_parameter_types([str])
+    def __init__(self, text, **kwargs):
+        """
+        Args:
+            text (str): The string content that have to be displayed in the Label.
+            kwargs: See Widget.__init__()
+        """
+        super(HTMLLabel, self).__init__(**kwargs)
+        self.type = 'label'
         self.set_text(text)
 
     def set_text(self, text):
@@ -1671,7 +1701,7 @@ class Input(Widget):
 
     def onchange(self, value):
         #0 hinibits the unwanted gui update that causes focus lost and difficulties in editing
-        self.attributes.__setitem__('value', value, 0)
+        self.attributes.__setitem__('value', value, 1)
         return self.eventManager.propagate(self.EVENT_ONCHANGE, [value])
 
     @decorate_set_on_listener("onchange", "(self,new_value)")
@@ -1697,6 +1727,28 @@ class Input(Widget):
             except KeyError:
                 pass
 
+class PrettySwitch(Widget):
+    @decorate_constructor_parameter_types([str, bool, str])
+    def __init__(self, label='', checked=False, user_data='', **kwargs):
+        """
+        Args:
+            label (str):
+            checked (bool):
+            user_data (str):
+            kwargs: See Widget.__init__()
+        """
+        super(PrettySwitch, self).__init__(**kwargs)
+        self.set_layout_orientation(Widget.LAYOUT_HORIZONTAL)
+        self._checkbox = CheckBox(checked, user_data)
+        # self._label = Label(label)
+        self._label = HTMLLabel(label)
+        self.append(self._checkbox, key='checkbox')
+        self.append(self._label, key='label')
+
+        self.set_value = self._checkbox.set_value
+        self.get_value = self._checkbox.get_value
+        self.set_on_change_listener = self._checkbox.set_on_change_listener
+        self.onchange = self._checkbox.onchange
 
 class CheckBoxLabel(Widget):
     @decorate_constructor_parameter_types([str, bool, str])

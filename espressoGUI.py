@@ -5,6 +5,7 @@ GUI Comment
 import remi.gui as gui
 from remi import start, App
 from threading import Timer
+import time
 
 
 class Espresso(App):
@@ -13,42 +14,29 @@ class Espresso(App):
 
     def main(self):
         verticalContainer = gui.Widget(width=400)
-        verticalContainer.style['display'] = 'block'
-        verticalContainer.style['overflow'] = 'hidden'
-        verticalContainer.style['text-align'] = 'center'
-        verticalContainer.style['margin'] = '0 auto'
-
-
-        horizontalContainer = gui.Widget(width='100%', layout_orientation=gui.Widget.LAYOUT_HORIZONTAL, margin='0 auto')
-        # horizontalContainer.style['display'] = 'block'
-        horizontalContainer.style['overflow'] = 'auto'
-        horizontalContainer.style['text-align'] = 'center'
-        horizontalContainer.style['margin'] = '0 auto'
-
-
-
-        # the arguments are	width - height - layoutOrientationOrizontal
+        horizontalContainer = gui.Widget(width='100%', layout_orientation=gui.Widget.LAYOUT_HORIZONTAL)
         subContainer = gui.Widget()
-        # subContainer.style['width'] = '380px'
-        subContainer.style['display'] = 'block'
+        subContainer.style['display'] = 'inline'
         subContainer.style['overflow'] = 'auto'
         subContainer.style['text-align'] = 'center'
         
-        self.powerSwitch = gui.CheckBox(False)
-        surround = gui.Widget()
-        surround.attributes['class'] = 'surround'
-        switchClass = gui.Widget()
-        switchClass.attributes['class'] = 'switch'
-        buttonClass = gui.Widget()
-        buttonClass.attributes['class'] = 'button'
-        buttonFaceClass = gui.Widget()
-        buttonFaceClass.attributes['class'] = 'button-face'
-        shadowClass = gui.Widget()
-        shadowClass.attributes['class'] = 'shadow'
-        buttonFaceClass.append(shadowClass)
-        switchClass.append(buttonClass)
-        switchClass.append(buttonFaceClass)
-        surround.append(switchClass)
+        self.power = False
+        self.powerSwitch = gui.PrettySwitch('Power', False)
+        self.powerSwitch.attributes['class'] = 'switch'
+        self.powerSwitch.style['height'] = '72px'
+        self.powerSwitch._label.attributes['for'] = 's1'
+        self.powerSwitch._label.attributes['class'] = 'slider-v1'
+        self.powerSwitch._checkbox.attributes['id'] = 's1'
+        self.powerSwitch._label.set_on_mouseup_listener(self, 'on_power_change')
+        
+        self.steam = False
+        self.steamSwitch = gui.PrettySwitch('Steam', False)
+        self.steamSwitch.attributes['class'] = 'switch'
+        self.steamSwitch.style['height'] = '72px'
+        self.steamSwitch._label.attributes['for'] = 's2'
+        self.steamSwitch._label.attributes['class'] = 'slider-v1'
+        self.steamSwitch._checkbox.attributes['id'] = 's2'
+        self.steamSwitch._label.set_on_mouseup_listener(self, 'on_steam_change')
         
         self.count = 0
         self.counter = gui.Label('', width=200, height=30, margin='10px')
@@ -62,23 +50,38 @@ class Espresso(App):
 
         self.slider = gui.Slider('96', 92, 102, 1, width=200, height=20, margin='10px')
         self.slider.set_on_change_listener(self, 'slider_changed')
-
-        subContainer.append(self.powerSwitch)
-        subContainer.append(surround)
+        
         subContainer.append(self.counter)
         subContainer.append(self.lbl)
         subContainer.append(self.bt)
         subContainer.append(self.spin)
         subContainer.append(self.slider)
+        subContainer.append(self.powerSwitch)
+        subContainer.append(self.steamSwitch)
         self.subContainer = subContainer
         horizontalContainer.append(subContainer)
         verticalContainer.append(horizontalContainer)
 
-        # kick of regular display of counter
         self.display_counter()
 
         # returning the root widget
         return verticalContainer
+        
+    def on_power_change(self, x, y):
+        self.power = not self.power        
+        if self.power:
+            self.lbl.set_text('ON')
+        else:
+            self.lbl.set_text('OFF')
+        self.powerSwitch._checkbox.set_value(self.power)
+        
+    def on_steam_change(self, x, y):
+        self.steam = not self.steam        
+        if self.steam:
+            self.lbl.set_text('Steam ON')
+        else:
+            self.lbl.set_text('Steam OFF')
+        self.steamSwitch._checkbox.set_value(self.steam)
 
     def display_counter(self):
         self.counter.set_text('Running Time: ' + str(self.count))
@@ -94,10 +97,12 @@ class Espresso(App):
 
     def slider_changed(self, value):
         self.lbl.set_text('New slider value: ' + str(value))
+        
+
 
 
 if __name__ == "__main__":
     # optional parameters
     # start(MyApp,address='127.0.0.1', port=8081, multiple_instance=False,enable_file_cache=True, update_interval=0.1, start_browser=True)
 
-    start(Espresso, debug=True, address='0.0.0.0')
+    start(Espresso, debug=True, address='0.0.0.0')        
