@@ -1,12 +1,5 @@
 @charset "UTF-8";
-/* latin */
 
-/* @font-face {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Roboto'), local('Roboto-Regular'), url('/res/font.woff2') format('woff2');
-} */
 @font-face {
   font-family: 'Dosis';
   font-style: normal;
@@ -20,10 +13,10 @@
   src: local('Dosis Regular'), local('Dosis-Regular'), url(dosis400.woff) format('woff');
 }
 @font-face {
-  font-family: 'Dosis';
+  font-family: 'Source Code Pro';
   font-style: normal;
-  font-weight: 600;
-  src: local('Dosis SemiBold'), local('Dosis-SemiBold'), url(dosis600.woff) format('woff');
+  font-weight: 200;
+  src: local('Source Code Pro ExtraLight'), local('SourceCodePro-ExtraLight'), url(sourcecodepro200.woff) format('woff');
 }
 textarea:focus,
 /* input[type='checkbox']:focus, */
@@ -225,7 +218,7 @@ button:disabled {
     background: #ddd;
     border: 1px solid #ddd;
 }
-.TextInput {
+/* .TextInput {
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, .12);
     display: block;
@@ -303,8 +296,6 @@ ul.Menu {
 .MenuItem .Menu {
     display: none;
     background-color: white;
-    /*border: 1px solid #9C9B9B;*/
-
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
     color: black;
     height: auto !important;
@@ -344,7 +335,7 @@ input.file {
     appearance: none;
     background: rgb(33, 150, 243);
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12), 0 2px 4px -1px rgba(0, 0, 0, .2);
-}
+} */
 /* input[type='range'] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -466,34 +457,19 @@ input[type='range']:disabled::-moz-range-thumb {
     background: rgba(0, 0, 0, .26)
 } */
 
-/* html, body {
-  height: 100%;
-}
-
-body {
-  background: linear-gradient(#f7f7f7, #e0e0e0);
-  margin: 0;
-}
-
-.wrap {
-  position: relative;
-  width: 33.33%;
-  margin: -72px 0;
-  top: 50%;
-  float: left;
-}
-*/
- 
-
 .tempLabel {
-    font-size: 6em;
+    font-size: 4em;
+    letter-spacing: -10px;
     line-height: 1em;
     font-weight: 200;
+    font-family: 'Source Code Pro';
 }
 
 .degreeLabel {
-    font-size: 4em;
+    font-size: 2em;
+    letter-spacing: -5px;
     font-weight: 200;
+    font-family: 'Source Code Pro';
 }
 
 label.slider-v1 {

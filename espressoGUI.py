@@ -2,12 +2,13 @@
 GUI Comment
 """
 
-from remi import start, gui, App
 import threading
+import time
+from remi import start, gui, App
 from systemcontrol.pinOut import SoftwarePWM
 from systemcontrol.max31855 import SoftwareSPI
+from systemcontrol.pid import PID
 from multiprocessing import Process, Value
-import time
 
 
 class Espresso(App):
@@ -15,12 +16,17 @@ class Espresso(App):
         super(Espresso, self).__init__(*args)
 
     def main(self):
-        self.Process = Process
-        self.setTemp = 94
+        self.setTemp = 96
+        self.calibrationOffset = -4 # +5 degrees to thermocouple output.
         self.boilerTemp = 0
         self.tempStarted = False
+        self.heaterPIDStarted = False
         self.tempProbe = SoftwareSPI()
+        self.Process = Process
         
+        self.pid = PID(3,1,0)
+        self.pid.setPoint(self.setTemp)
+                
         mainContainer = gui.Widget(width=320)
         verticalContainer = gui.Widget(width='100%', layout_orientation=gui.Widget.LAYOUT_VERTICAL)
         verticalContainer.style['text-align'] = 'center'
@@ -62,14 +68,14 @@ class Espresso(App):
         self.counter = gui.Label('', width=200, height=30)
         self.lbl = gui.Label('This is a LABEL!', width=200, height=30)
         
-        self.bt = gui.Button('Press me!', width=200, height=30)
-        self.bt.set_on_click_listener(self, 'on_button_pressed')
-
-        self.spin = gui.SpinBox('96', 92, 102, 1, width=200, height=30)
-        self.spin.set_on_change_listener(self, 'on_spin_change')
-
-        self.slider = gui.Slider('96', 92, 102, 1, width=200, height=20)
-        self.slider.set_on_change_listener(self, 'slider_changed')
+        # self.bt = gui.Button('Press me!', width=200, height=30)
+        # self.bt.set_on_click_listener(self, 'on_button_pressed')
+        # 
+        # self.spin = gui.SpinBox('96', 92, 102, 1, width=200, height=30)
+        # self.spin.set_on_change_listener(self, 'on_spin_change')
+        # 
+        # self.slider = gui.Slider('96', 92, 102, 1, width=200, height=20)
+        # self.slider.set_on_change_listener(self, 'slider_changed')
         
         self.dummyUpdated = gui.Label('') # Blank widget to add to the page for forcing an update.
         # When a switch changes from a remote GUI, the local GUI doesn't update automagically.
@@ -97,15 +103,41 @@ class Espresso(App):
             t.start()
             self.tempStarted = True
         self.temperature_display()
-        
-    
+        self.startPID()
         # returning the root widget
         return verticalContainer
+        
+    def startPID(self):
+        if self.heaterPIDStarted == False:
+            self.heaterController = SoftwarePWM(27)
+            self.heaterController.pwmUpdate(0, 0.83333) # 1% steps when controlling 60 Hz mains.
+            print('Initiated Heater PWM.')
+            self.heaterPIDStarted = True
+        if self.power == False:
+            self.heaterController.pwmUpdate(0, 0.83333)
+        elif (self.power == True and self.steam == False):
+            pidOutputReal = self.pid.update(float(self.boilerTemp))
+            pidOutput = pidOutputReal / 5
+            if pidOutput > 100:
+                pidOutput = 100
+            elif pidOutput < 0:
+                pidOutput = 0
+            # pidNormalized = 0.09356112348 * (pidOutput + 548.75)
+            # pidOutput = self.pid.update(float(19.25))
+            print('Updating PID with: '+str(self.boilerTemp))
+            print('PID Output:        '+str(pidOutputReal))
+            print('PID Output Fixed: '+str(pidOutput))
+            print('PID Setpoint:      '+str(self.pid.set_point))
+            self.heaterController.pwmUpdate(int(pidOutput), 0.83333)
+        elif (self.power == True and self.steam == True):
+            pass
+        threading.Timer(0.416666, self.startPID).start() # Repeat twice as fast as the PWM cycle
         
     def on_power_change(self, x, y):
         self.power = not self.power  
         self.powerSwitch._checkbox.set_value(self.power)      
         if self.power:
+            self.pid.setPoint(self.setTemp)
             self.lbl.set_text('ON')
             self.steamSwitch._checkbox.set_value(False)
             time.sleep(0.25)
@@ -115,7 +147,6 @@ class Espresso(App):
             time.sleep(0.25)
             self.switchContainer.remove_child(self.steamSwitch)
             self.steam = False
-
         
     def on_steam_change(self, x, y):
         self.steam = not self.steam        
@@ -134,9 +165,9 @@ class Espresso(App):
         threading.Timer(1, self.display_counter).start()
     
     def temperature_display(self):
-        currentTemp = "{:.2f}".format(self.tempProbe.getTemp())
-        self.tempLabel.set_text(str(currentTemp)+' ')
-        print(str(currentTemp)+' ')
+        currentTemp = self.tempProbe.getTemp()
+        self.boilerTemp = "{:.2f}".format(float(currentTemp) + self.calibrationOffset)
+        self.tempLabel.set_text(str(self.boilerTemp))
         threading.Timer(0.5, self.temperature_display).start()
 
     def on_button_pressed(self):
@@ -150,11 +181,7 @@ class Espresso(App):
         self.lbl.set_text('New slider value: ' + str(value))
         
 
-
-
 if __name__ == "__main__":
     # optional parameters
     # start(MyApp,address='127.0.0.1', port=8081, multiple_instance=False,enable_file_cache=True, update_interval=0.1, start_browser=True)
-    controller = SoftwarePWM(27)
-    controller.pwmUpdate(25, 1) 
     start(Espresso, debug=True, address='0.0.0.0')  
