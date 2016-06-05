@@ -3,8 +3,10 @@ GUI Comment
 """
 
 from remi import start, gui, App
-from threading import Timer
+import threading
 from systemcontrol.pinOut import SoftwarePWM
+from systemcontrol.max31855 import SoftwareSPI
+from multiprocessing import Process, Value
 import time
 
 
@@ -13,8 +15,11 @@ class Espresso(App):
         super(Espresso, self).__init__(*args)
 
     def main(self):
+        self.Process = Process
         self.setTemp = 94
-        self.boilerTemp = 90
+        self.boilerTemp = 0
+        self.tempStarted = False
+        self.tempProbe = SoftwareSPI()
         
         mainContainer = gui.Widget(width=320)
         verticalContainer = gui.Widget(width='100%', layout_orientation=gui.Widget.LAYOUT_VERTICAL)
@@ -86,7 +91,14 @@ class Espresso(App):
         mainContainer.append(verticalContainer)
 
         self.display_counter()
-
+        if self.tempStarted == False:
+            t = threading.Thread(target=self.tempProbe.initiateSPI, args=(50, 100)) # 50% Duty, 50 Hz
+            t.daemon = True
+            t.start()
+            self.tempStarted = True
+        self.temperature_display()
+        
+    
         # returning the root widget
         return verticalContainer
         
@@ -119,7 +131,13 @@ class Espresso(App):
     def display_counter(self):
         self.counter.set_text('Running Time: ' + str(self.count))
         self.count += 1
-        Timer(1, self.display_counter).start()
+        threading.Timer(1, self.display_counter).start()
+    
+    def temperature_display(self):
+        currentTemp = "{:.2f}".format(self.tempProbe.getTemp())
+        self.tempLabel.set_text(str(currentTemp)+' ')
+        print(str(currentTemp)+' ')
+        threading.Timer(0.5, self.temperature_display).start()
 
     def on_button_pressed(self):
         self.lbl.set_text('Button pressed! ')
