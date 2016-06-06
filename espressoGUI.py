@@ -17,14 +17,15 @@ class Espresso(App):
 
     def main(self):
         self.setTemp = 96
-        self.calibrationOffset = -4 # +5 degrees to thermocouple output.
+        self.calibrationOffset = 0 # -4 degrees to thermocouple output.
         self.boilerTemp = 0
         self.tempStarted = False
         self.heaterPIDStarted = False
         self.tempProbe = SoftwareSPI()
         self.Process = Process
+        self.samplesPID = 0
         
-        self.pid = PID(3,1,0)
+        self.pid = PID(99,26,8)
         self.pid.setPoint(self.setTemp)
                 
         mainContainer = gui.Widget(width=320)
@@ -117,18 +118,23 @@ class Espresso(App):
             self.heaterController.pwmUpdate(0, 0.83333)
         elif (self.power == True and self.steam == False):
             pidOutputReal = self.pid.update(float(self.boilerTemp))
-            pidOutput = pidOutputReal / 5
+            # if self.samplesPID >= 10:
+            #     pidOutputReal = self.pid.update(float(20))
+            # else:
+            #     pidOutputReal = self.pid.update(float(112))
+            pidOutput = (pidOutputReal + 12000) / 330
             if pidOutput > 100:
                 pidOutput = 100
             elif pidOutput < 0:
                 pidOutput = 0
             # pidNormalized = 0.09356112348 * (pidOutput + 548.75)
             # pidOutput = self.pid.update(float(19.25))
-            print('Updating PID with: '+str(self.boilerTemp))
+            # print('Updating PID with: '+str(self.boilerTemp))
             print('PID Output:        '+str(pidOutputReal))
-            print('PID Output Fixed: '+str(pidOutput))
+            print('PID Output Fixed: '+str(int(pidOutput)))
             print('PID Setpoint:      '+str(self.pid.set_point))
             self.heaterController.pwmUpdate(int(pidOutput), 0.83333)
+            self.samplesPID += 1
         elif (self.power == True and self.steam == True):
             pass
         threading.Timer(0.416666, self.startPID).start() # Repeat twice as fast as the PWM cycle
