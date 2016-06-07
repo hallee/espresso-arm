@@ -5,7 +5,7 @@ GUI Comment
 import threading
 import time
 from remi import start, gui, App
-from systemcontrol.pinOut import SoftwarePWM
+from systemcontrol.heaterPWM import SoftwarePWM
 from systemcontrol.max31855 import SoftwareSPI
 from systemcontrol.pid import PID
 from multiprocessing import Process, Value
@@ -25,7 +25,7 @@ class Espresso(App):
         self.Process = Process
         self.samplesPID = 0
 
-        self.pid = PID(5,1,20)
+        self.pid = PID(5,1,0.04)
         self.pid.setSetPoint(self.setTemp)
 
         mainContainer = gui.Widget(width=320)
