@@ -1,72 +1,74 @@
 """
 PID Controller
 """
+import time
 
 class PID:
-    def __init__(self, P=2.0, I=0.0, D=1.0, Derivator=0, Integrator=0, Integrator_max=500, Integrator_min=-500, totalMax=100, totalMin=0):
-        self.Kp=P
-        self.Ki=I
-        self.Kd=D
-        self.Derivator=Derivator
-        self.Integrator=Integrator
-        self.Integrator_max=Integrator_max
-        self.Integrator_min=Integrator_min
+    def __init__(self, P=2.0, I=0.0, D=1.0, integratorMax=20, integratorMin=-20, totalMax=100, totalMin=0):
+        self.Kp = P
+        self.Ki = I
+        self.Kd = D
+        self.integratorMax = integratorMax
+        self.integratorMin = integratorMin
 
-        self.totalMax=totalMax
-        self.totalMin=totalMin
+        self.currentTime = time.time()
+        self.lastTime = self.currentTime
 
-        self.set_point=0.0
-        self.error=0.0
+        self.totalMax = totalMax
+        self.totalMin = totalMin
 
-    def update(self,current_value):
+        self.PTerm = 0.0
+        self.ITerm = 0.0
+        self.DTerm = 0.0
+        self.setPoint = 0.0
+        self.error = 0.0
+        self.lastError = 0.0
+        self.sampleTime = 1.2/4
+
+    def update(self, currentValue):
     # Calculate PID output value for given reference input and feedback
-        self.error = self.set_point - current_value
-        self.P_value = self.Kp * self.error
-        self.D_value = self.Kd * ( self.error - self.Derivator)
-        self.Derivator = self.error
+        self.error = self.setPoint - currentValue
 
-        self.Integrator = self.Integrator + self.error
+        self.currentTime = time.time()
+        deltaTime = self.currentTime - self.lastTime
+        deltaError = self.error - self.lastError
 
-        if self.Integrator > self.Integrator_max:
-            self.Integrator = self.Integrator_max
-        elif self.Integrator < self.Integrator_min:
-            self.Integrator = self.Integrator_min
+        if (deltaTime >= self.sampleTime):
+            self.PTerm = self.Kp * self.error
+            self.ITerm += self.error * deltaTime
 
-        self.I_value = self.Integrator * self.Ki
+            if (self.ITerm < self.integratorMin):
+                self.ITerm = self.integratorMin
+            elif (self.ITerm > self.integratorMax):
+                self.ITerm = self.integratorMax
 
-        PID = self.P_value + self.I_value + self.D_value
+            self.DTerm = 0.0
+            if deltaTime > 0:
+                self.DTerm = deltaError / deltaTime
+
+            self.lastTime = self.currentTime
+            self.lastError = self.error
+            PID = self.PTerm + (self.Ki * self.ITerm) + (self.Kd * self.DTerm)
+        else:
+            PID = 0
 
         return PID
 
-    def setPoint(self,set_point):
+    def setSetPoint(self, setPoint):
     # Initilize the setpoint of PID
-        self.set_point = set_point
-        self.Integrator=0
-        self.Derivator=0
+        self.setPoint = setPoint
 
-    def setIntegrator(self, Integrator):
-        self.Integrator = Integrator
+    def setKp(self, P):
+        self.Kp = P
 
-    def setDerivator(self, Derivator):
-        self.Derivator = Derivator
+    def setKi(self, I):
+        self.Ki = I
 
-    def setKp(self,P):
-        self.Kp=P
-
-    def setKi(self,I):
-        self.Ki=I
-
-    def setKd(self,D):
-        self.Kd=D
+    def setKd(self, D):
+        self.Kd = D
 
     def getPoint(self):
-        return self.set_point
+        return self.setPoint
 
     def getError(self):
         return self.error
-
-    def getIntegrator(self):
-        return self.Integrator
-
-    def getDerivator(self):
-        return self.Derivator

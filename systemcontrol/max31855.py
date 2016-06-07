@@ -21,10 +21,10 @@ class SoftwareSPI:
         self.clk = 5
         self.cs = 4
         self.do = 1
-    
+
     def getTemp(self):
         return self.temp
-        
+
     def controlPin(self, onTime, offTime):
         wp.wiringPiSetup()
         wp.pinMode(self.clk, 1)
@@ -34,7 +34,7 @@ class SoftwareSPI:
         wp.digitalWrite(self.cs, 1)
         d = 0
         bitIndex = 0
-        
+
         while not self.stop:
             wp.digitalWrite(self.clk, 0)
             if bitIndex == 0:
@@ -46,7 +46,11 @@ class SoftwareSPI:
             wp.digitalWrite(self.clk, 1)
             time.sleep(onTime.value)
             if bitIndex == 31:
-                if (d & 0x80000000):
+                if (d & 0x7):
+                    # "Serious Problem"
+                    print('Problem with MAX31855 board.')
+                    d = 0
+                elif (d & 0x80000000):
                     # Negative!
                     d = 0xFFFFC000 | ((d >> 18) & 0x00003FFFF)
                 else:
@@ -58,7 +62,7 @@ class SoftwareSPI:
             else:
                 bitIndex += 1
 
-    
+
     def initiateSPI(self, dutyCycle, f):
         self.duration = 1/f
         self.onTime.value = self.duration * (dutyCycle / 100)
