@@ -11,7 +11,13 @@ This is an embedded ARM modification for home espresso machines to add:
 
 I use an [Odroid C2](http://ameridroid.com/products/odroid-c2) for this project (it's easier to get, faster, and has a heat sink), but a Raspberry Pi 3 should work just as well.
 
+The Odroid C2 (or Raspberry Pi) hosts the control application on a local webserver. This way, you can control it with a connected touch screen if you want to add one, or if not, you can control it from your phone, computer, or anything with a web browser connected to your wifi. 
+
+[Note about Siri Control]
+
 ![Interface](http://i.imgur.com/gbyqMFy.png)
+
+The app logic, GPIO pin control (PWM), PID controller, and temperature board driver are all implemented in Python. Even the GUI and local web server are generated with Python ([Remi](https://github.com/dddomodossola/remi)).
 
 ### Parts List
 
