@@ -11,6 +11,8 @@ This is an embedded ARM modification for home espresso machines to add:
 
 I use an [Odroid C2](http://ameridroid.com/products/odroid-c2) for this project (it's easier to get, faster, and has a heat sink), but a Raspberry Pi 3 should work just as well.
 
+![Interface](http://i.imgur.com/OSr3oKy.png)
+
 ### Parts List
 
 Price | Supplier (US) | Name + Link
@@ -20,12 +22,12 @@ $15 | Adafruit   | [Thermocouple Amplifier](https://www.adafruit.com/products/26
 $10 | Adafruit   | [Thermocouple](https://www.adafruit.com/products/270)
 $5  | Adafruit   | [Thermal Tape](https://www.adafruit.com/products/1468)
 $7  | Amazon     | [Solid State Relay](https://smile.amazon.com/gp/product/B00E1LC1VK/ref=od_aui_detailpages01?ie=UTF8&psc=1)
-$7  | Amazon     | [14 AWG Wire, Marine Grade](https://smile.amazon.com/gp/product/B000NV2E6O/ref=od_aui_detailpages00?ie=UTF8&psc=1)
+$5  | Amazon     | [14 AWG Wire, Marine Grade](https://smile.amazon.com/gp/product/B000NV2E6O/ref=od_aui_detailpages00?ie=UTF8&psc=1)
 $6  | Amazon     | [Weatherproof Connectors](https://smile.amazon.com/gp/product/B00GMO98NI/ref=od_aui_detailpages01?ie=UTF8&psc=1)
 $10 | Amazon     | [Breadboard Wires](https://smile.amazon.com/gp/product/B00M5WLZDW/ref=od_aui_detailpages01?ie=UTF8&psc=1)
 $9  | Amazon     | [USB Wifi Adapter](https://smile.amazon.com/gp/product/B003MTTJOY/ref=od_aui_detailpages01?ie=UTF8&psc=1)
 $4  | Amazon     | [USB Extension Cable](https://smile.amazon.com/Tripp-Lite-Universal-Reversible-UR024-18N-RA/dp/B00ESZJEEG/ref=sr_1_29?s=electronics&ie=UTF8&qid=1465866122&sr=1-29&keywords=usb+extension)
-$**122**    |            |  
+$**120**    |            |  
 
 ### Tools
 

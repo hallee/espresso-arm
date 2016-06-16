@@ -16,7 +16,7 @@ class Espresso(App):
         super(Espresso, self).__init__(*args)
 
     def main(self):
-        self.setTemp = 102
+        self.setTemp = 105
         self.calibrationOffset = 0 # -4 degrees to thermocouple output.
         self.boilerTemp = 0
         self.tempStarted = False
@@ -150,11 +150,9 @@ class Espresso(App):
         self.steam = not self.steam
         if self.steam:
             self.lbl.set_text('Steam ON')
-            # self.pid.SetPoint = 130
-            self.pid.setSetPoint(130)
+            self.pid.setSetPoint(140)
         else:
             self.lbl.set_text('Steam OFF')
-            # self.pid.SetPoint = self.setTemp
             self.pid.setSetPoint(self.setTemp)
         self.steamSwitch._checkbox.set_value(self.steam)
         time.sleep(0.25)
