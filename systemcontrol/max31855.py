@@ -1,5 +1,10 @@
 """
-Odroid C2 Pin Output
+Driver for the Adafruit MAX31855
+Thermocouple amplifier board.
+
+The SPI interface is software driven
+as hardware SPI output is not implemented
+for the Odroid C2. 
 """
 
 import time

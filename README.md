@@ -11,7 +11,7 @@ This is an embedded ARM modification for home espresso machines to add:
 
 I use an [Odroid C2](http://ameridroid.com/products/odroid-c2) for this project (it's easier to get, faster, and has a heat sink), but a Raspberry Pi 3 should work just as well.
 
-The Odroid C2 (or Raspberry Pi) hosts the control application on a local webserver. This way, you can control it with a connected touch screen if you want to add one, or if not, you can control it from your phone, computer, or anything with a web browser connected to your wifi. 
+The Odroid C2 (or Raspberry Pi) hosts the control application on a local webserver. This way, you can control it with a connected touch screen if you want to add one, or if not, you can control it from your phone, computer, or anything with a web browser connected to your wifi.
 
 [Note about Siri Control]
 
@@ -42,3 +42,5 @@ Price | Supplier (US) | Name + Link
 $19 | Amazon     | [Soldering Iron](https://smile.amazon.com/gp/product/B0192PZD1Y/ref=od_aui_detailpages01?ie=UTF8&psc=1)
 $5  | Amazon     | [Solder Remover](https://smile.amazon.com/gp/product/B00L2HRW92/ref=od_aui_detailpages01?ie=UTF8&psc=1)
 $18  | Amazon     | [Wire Strippers](https://smile.amazon.com/gp/product/B000OQ21CA/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1)
+
+### Installation
