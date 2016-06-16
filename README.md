@@ -11,7 +11,7 @@ This is an embedded ARM modification for home espresso machines to add:
 
 I use an [Odroid C2](http://ameridroid.com/products/odroid-c2) for this project (it's easier to get, faster, and has a heat sink), but a Raspberry Pi 3 should work just as well.
 
-![Interface](http://i.imgur.com/OSr3oKy.png)
+![Interface](http://i.imgur.com/gbyqMFy.png)
 
 ### Parts List
 
