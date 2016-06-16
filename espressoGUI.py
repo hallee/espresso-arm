@@ -1,5 +1,6 @@
 """
-GUI Comment
+Espresso Controller
+GUI & Web Server
 """
 
 import threading
@@ -8,7 +9,6 @@ from remi import start, gui, App
 from systemcontrol.heaterPWM import SoftwarePWM
 from systemcontrol.max31855 import SoftwareSPI
 from systemcontrol.pid import PID
-from multiprocessing import Process, Value
 
 
 class Espresso(App):
@@ -17,13 +17,11 @@ class Espresso(App):
 
     def main(self):
         self.setTemp = 105
-        self.calibrationOffset = 0 # -4 degrees to thermocouple output.
+        self.calibrationOffset = 0 # Added to thermocouple output.
         self.boilerTemp = 0
         self.tempStarted = False
         self.heaterPIDStarted = False
         self.tempProbe = SoftwareSPI()
-        self.Process = Process
-        self.samplesPID = 0
 
         self.pid = PID(5,1,0.04)
         self.pid.setSetPoint(self.setTemp)
@@ -69,30 +67,17 @@ class Espresso(App):
         self.counter = gui.Label('', width=200, height=30)
         self.lbl = gui.Label('This is a LABEL!', width=200, height=30)
 
-        # self.bt = gui.Button('Press me!', width=200, height=30)
-        # self.bt.set_on_click_listener(self, 'on_button_pressed')
-        #
-        # self.spin = gui.SpinBox('96', 92, 102, 1, width=200, height=30)
-        # self.spin.set_on_change_listener(self, 'on_spin_change')
-        #
-        # self.slider = gui.Slider('96', 92, 102, 1, width=200, height=20)
-        # self.slider.set_on_change_listener(self, 'slider_changed')
-
         self.dummyUpdated = gui.Label('') # Blank widget to add to the page for forcing an update.
         # When a switch changes from a remote GUI, the local GUI doesn't update automagically.
         # So, forcing an update by adding this dummy to the scene.
         # Replace with something better eventually.
 
-        # subContainer.append(self.counter)
-        # subContainer.append(self.lbl)
-        # subContainer.append(self.bt)
-        # subContainer.append(self.spin)
-        # subContainer.append(self.slider)
         subContainer.append(self.tempLabel)
         subContainer.append(self.degreeLabel)
         switchContainer.append(self.powerSwitch)
         switchContainer.append(self.dummyUpdated)
         self.switchContainer = switchContainer
+
         verticalContainer.append(switchContainer)
         verticalContainer.append(subContainer)
         mainContainer.append(verticalContainer)
@@ -107,7 +92,6 @@ class Espresso(App):
         self.startPID()
         # returning the root widget
         return verticalContainer
-
 
     def startPID(self):
         if self.heaterPIDStarted == False:
@@ -128,7 +112,6 @@ class Espresso(App):
             print('PID Output:        '+str(pidOutputReal))
             print('PID Output Fixed: '+str(int(pidOutput)))
             self.heaterController.pwmUpdate(int(pidOutput), 0.83333)
-            self.samplesPID += 1
         threading.Timer(0.416666, self.startPID).start() # Repeat twice as fast as the PWM cycle
 
     def on_power_change(self, x, y):
@@ -165,8 +148,8 @@ class Espresso(App):
         threading.Timer(1, self.display_counter).start()
 
     def temperature_display(self):
-        currentTemp = self.tempProbe.getTemp()
-        self.boilerTemp = "{:.2f}".format(float(currentTemp) + self.calibrationOffset)
+        currentTemp = self.tempProbe.getTemp() + self.calibrationOffset
+        self.boilerTemp = "{:.2f}".format(float(currentTemp))
         self.tempLabel.set_text(str(self.boilerTemp))
         threading.Timer(0.5, self.temperature_display).start()
 
@@ -182,6 +165,5 @@ class Espresso(App):
 
 
 if __name__ == "__main__":
-    # optional parameters
     # start(MyApp,address='127.0.0.1', port=8081, multiple_instance=False,enable_file_cache=True, update_interval=0.1, start_browser=True)
     start(Espresso, debug=True, address='0.0.0.0')
