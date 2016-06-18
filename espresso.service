@@ -1,0 +1,11 @@
+[Unit]
+Description=espresso-arm
+After=getty@tty1.service
+PartOf=getty@tty1.service
+
+[Service]
+Type=simple
+ExecStart=-/usr/bin/su root -l -c 'homebridge ; python ~/espresso-arm/espressoGUI.py'
+
+[Install]
+WantedBy=multi-user.target
