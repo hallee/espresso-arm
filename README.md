@@ -54,12 +54,15 @@ Arch Linux ARM provides a great installation guide for each platform:
  * [Odroid C2](https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2)
  * [Raspberry Pi 3](https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3)
 
- Follow the guide for your platform to get up-and-running with Arch Linux.
+ Follow the guide for your platform to get up-and-running with Arch Linux. You'll need another Linux machine to flash the SD card with Arch Linux, so hopefully you already run Linux somewhere.
 
 ### Prerequisites
 
-* `python` + `python2` (Yes, both Python 2 and 3.)
+* `python`
 * `WiringPi-Python`: Get it [here](https://github.com/hardkernel/WiringPi2-Python) for the Odroid C2, and [here](https://github.com/WiringPi/WiringPi-Python) for the Raspberry Pi.
+
+If you want Siri support, you'll also need:
+* `python2`
 * `nodejs` + `npm`
 * `avahi`
 
@@ -74,3 +77,4 @@ Okay:
         systemctl start avahi-daemon
         systemctl enable avahi-daemon
         sudo npm install -g homebridge --unsafe-perm
+        sudo npm install -g homebridge-http

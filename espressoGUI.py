@@ -93,6 +93,33 @@ class Espresso(App):
         # returning the root widget
         return verticalContainer
 
+    def on(self):
+        print('on from URL')
+        currentlyOn = self.power
+        self.power = True
+        self.powerSwitch._checkbox.set_value(self.power)
+        if not currentlyOn:
+            self.pid.setSetPoint(self.setTemp)
+            self.lbl.set_text('ON')
+            self.steamSwitch._checkbox.set_value(False)
+            time.sleep(0.25)
+            self.switchContainer.append(self.steamSwitch)
+
+    def off(self):
+        print('off from URL')
+        currentlyOn = self.power
+        self.power = False
+        self.powerSwitch._checkbox.set_value(self.power)
+        if currentlyOn:
+            self.lbl.set_text('OFF')
+            time.sleep(0.25)
+            self.switchContainer.remove_child(self.steamSwitch)
+            self.steam = False
+
+    def getStatus(self):
+        return self.power
+
+
     def startPID(self):
         if self.heaterPIDStarted == False:
             self.heaterController = SoftwarePWM(27)

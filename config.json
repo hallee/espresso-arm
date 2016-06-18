@@ -1,0 +1,22 @@
+{
+    "bridge": {
+        "name": "Homebridge",
+        "username": "CC:22:3D:E3:CE:30",
+        "port": 51826,
+        "pin": "031-45-154"
+    },
+
+    "description": "HomeBridge HTTP Status Control",
+
+    "accessories": [ {
+	        "accessory": "Http",
+                "name": "espresso machine",
+			"switchHandling": "realtime",
+				"http_method": "GET",
+				"on_url":      "http://0.0.0.0:8081/Espresso/on",
+				"off_url":     "http://0.0.0.0:8081/Espresso/off",
+				"status_url":  "http://0.0.0.0:8081/Espresso/status",
+			"service": "Switch"
+       }
+    ]
+}
