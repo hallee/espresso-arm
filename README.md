@@ -117,5 +117,11 @@ For Siri support, as root:
 
     systemctl start avahi-daemon
     systemctl enable avahi-daemon
+
     npm install -g homebridge --unsafe-perm
     npm install -g homebridge-http
+    cp ~/espresso-arm/config.json ~/.homebridge/config.json
+
+    cp ~/espresso-arm/espresso-siri.service /etc/systemd/system
+    systemctl start espresso-siri
+    systemctl enable espresso-siri
