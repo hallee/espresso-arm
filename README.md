@@ -90,7 +90,7 @@ As root:
       pip install WiringPi2-Python/
 
 
-
+    cd ~
     git clone https://github.com/hallee/espresso-arm.git
     cd espresso-arm/
     cp espresso.service /etc/systemd/system
