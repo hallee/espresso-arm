@@ -155,7 +155,7 @@ Note: this USB power supply ended up causing a lot of issues with the GPIO and I
 There's a lot going on here:
 
 * The SSR has been mounted on the left side of the machine with the thermal tape.
-* I've removed the brown wires from one of the thermostats (there's three of them; the black circular things with two contacts each, coming out of the boiler) and connected them to the AC switching wires on the SSR.
+* I've removed the brown wires from one of the thermostats (there's three of them; the black circular things with two contacts each, coming out of the boiler) and connected them to the AC switching wires on the SSR. **Important note:** because of the thermostat I've bypassed, my main power switch *and the steam switch* must both be flipped for my software temperature control to work without tripping any other thermostats. 
 * I've unplugged the white and black mains power cables from the main switch. I'll connect these to the USB power supply from the last image.
 
 ![6](http://i.imgur.com/z6LtDr5.jpg)
