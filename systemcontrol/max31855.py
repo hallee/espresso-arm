@@ -4,7 +4,10 @@ Thermocouple amplifier board.
 
 The SPI interface is software driven
 as hardware SPI output is not implemented
-for the Odroid C2. 
+for the Odroid C2.
+
+Bit logic derived from Adafruit's driver:
+https://github.com/adafruit/Adafruit-MAX31855-library/blob/master/Adafruit_MAX31855.cpp#L79
 """
 
 import time
@@ -13,7 +16,7 @@ from multiprocessing import Value
 
 class SoftwareSPI:
     """
-    Software clock for SPI. Very slow.
+    Software clock for SPI. Seems to work fine despite how slow it is.
     """
     def __init__(self):
         self.duration = None
