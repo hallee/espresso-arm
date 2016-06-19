@@ -17,7 +17,7 @@ The Odroid C2 (or Raspberry Pi) hosts the control application on a local webserv
 
 The app logic, GPIO pin control (PWM), a PID controller, and the thermocouple driver are all implemented in Python. Even the GUI and local web server are generated with Python ([Remi](https://github.com/dddomodossola/remi)).
 
-Siri support (via [HomeBridge](https://github.com/nfarina/homebridge)) requires Node.js, which causes a big dependency mess. If you don't want Siri support, everything else will work fine, and installation will be much easier for you.
+Siri support (via [Homebridge](https://github.com/nfarina/homebridge)) requires Node.js, which causes a big dependency mess. If you don't want Siri support, everything else will work fine, and installation will be much easier for you.
 
 ### Parts List
 
@@ -44,7 +44,7 @@ $19 | Amazon     | [Soldering Iron](https://smile.amazon.com/gp/product/B0192PZD
 $5  | Amazon     | [Solder Remover](https://smile.amazon.com/gp/product/B00L2HRW92/ref=od_aui_detailpages01?ie=UTF8&psc=1)
 $18  | Amazon     | [Wire Strippers](https://smile.amazon.com/gp/product/B000OQ21CA/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1)
 
-## Installation
+## Software Installation
 
 If you're starting from scratch, I recommend Arch Linux ARM. This guide assumes you're running Arch. If you already have a Linux distribution on your Odroid/Pi, and you're comfortable with Linux, you should be able to figure out how this translates to your platform.
 
@@ -68,7 +68,7 @@ If you want Siri support, you'll also need:
 * `python2`
 * `avahi`
 * `nodejs` + `npm`
-* [`HomeBridge`](https://github.com/nfarina/homebridge)
+* [`Homebridge`](https://github.com/nfarina/homebridge)
 * [`homebridge-http`](https://github.com/rudders/homebridge-http)
 
 ### Installing espresso-arm
@@ -125,3 +125,17 @@ For Siri support, as root:
     cp ~/espresso-arm/espresso-siri.service /etc/systemd/system
     systemctl start espresso-siri
     systemctl enable espresso-siri
+
+Finally, follow the ['Adding Homebridge to iOS'](https://github.com/nfarina/homebridge#adding-homebridge-to-ios) guide to get this working on your phone/watch.
+
+## Hardware Installation
+
+Proceed with caution. Make sure your espresso machine is unplugged completely before opening it. Every component in your espresso machine is likely wired with live AC mains power (even the lights in my machine are wired directly to mains). This is much more dangerous than working in a computer (with low-voltage DC components) and you **will** be shocked if you touch any components while the machine is on.
+
+![1](http://i.imgur.com/vJzehOn.jpg)
+
+My Lelit PL041QE. It's not sold anymore. The machine doesn't really matter though. Wiring should be mostly the same in similarly-priced machines like the Rancilio Silvia.
+
+![2](http://i.imgur.com/Un4NWUI.jpg)
+
+The factory wiring for my Lelit.
