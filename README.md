@@ -27,8 +27,8 @@ $49 | Ameridroid | [Odroid C2 + USB to 2.5mm Power Adapter](http://ameridroid.co
 $15 | Adafruit   | [Thermocouple Amplifier](https://www.adafruit.com/products/269)
 $10 | Adafruit   | [Thermocouple](https://www.adafruit.com/products/270)
 $5  | Adafruit   | [Thermal Tape](https://www.adafruit.com/products/1468)
-$10  | Amazon    | [SD Card](https://smile.amazon.com/Samsung-Class-Adapter-MB-MG16EA-AM/dp/B014W1ZL3S/ref=sr_1_1?ie=UTF8&qid=1466254153&sr=8-1)
-$7  | Amazon     | [Solid State Relay](https://smile.amazon.com/gp/product/B00E1LC1VK/ref=od_aui_detailpages01?ie=UTF8&psc=1)
+$10 | Amazon     | [SD Card](https://smile.amazon.com/Samsung-Class-Adapter-MB-MG16EA-AM/dp/B014W1ZL3S/ref=sr_1_1?ie=UTF8&qid=1466254153&sr=8-1)
+$7  | Amazon     | [Solid State Relay (SSR)](https://smile.amazon.com/gp/product/B00E1LC1VK/ref=od_aui_detailpages01?ie=UTF8&psc=1)
 $5  | Amazon     | [14 AWG Wire, Marine Grade](https://smile.amazon.com/gp/product/B000NV2E6O/ref=od_aui_detailpages00?ie=UTF8&psc=1)
 $6  | Amazon     | [Weatherproof Connectors](https://smile.amazon.com/gp/product/B00GMO98NI/ref=od_aui_detailpages01?ie=UTF8&psc=1)
 $10 | Amazon     | [Breadboard Wires](https://smile.amazon.com/gp/product/B00M5WLZDW/ref=od_aui_detailpages01?ie=UTF8&psc=1)
@@ -42,7 +42,7 @@ Price | Supplier (US) | Name + Link
 ----- | ------------- | ----
 $19 | Amazon     | [Soldering Iron](https://smile.amazon.com/gp/product/B0192PZD1Y/ref=od_aui_detailpages01?ie=UTF8&psc=1)
 $5  | Amazon     | [Solder Remover](https://smile.amazon.com/gp/product/B00L2HRW92/ref=od_aui_detailpages01?ie=UTF8&psc=1)
-$18  | Amazon     | [Wire Strippers](https://smile.amazon.com/gp/product/B000OQ21CA/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1)
+$18 | Amazon     | [Wire Strippers](https://smile.amazon.com/gp/product/B000OQ21CA/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1)
 
 ## Software Installation
 
@@ -139,3 +139,59 @@ My Lelit PL041QE. It's not sold anymore. The machine doesn't really matter thoug
 ![2](http://i.imgur.com/Un4NWUI.jpg)
 
 The factory wiring for my Lelit.
+
+![3](http://i.imgur.com/oUSbbAr.jpg)
+
+This is how the SSR should be wired. Heavy gauge wire on the AC-switching output. You can just use breadboard wires on the DC side. Daisy-chain a few male-female breadboard wires if you need a longer run.
+
+![4](http://i.imgur.com/g3kOtSm.jpg)
+
+Since my entire espresso machine is powered from mains, I needed to use a DC power supply. This splits the mains power coming into the machine; one leg goes to the USB power supply, and the other leg (blue female plugs) to the main switch of the espresso machine.
+
+Note: this USB power supply ended up causing a lot of issues with the GPIO and I was getting faulty readings from the thermocouple amplifier. I replaced it with an Apple 5V 1A brick and that solved my problems. Make sure you use a quality USB power supply here.
+
+![5](http://i.imgur.com/eyYWPdv.jpg)
+
+There's a lot going on here:
+
+* The SSR has been mounted on the left side of the machine with the thermal tape.
+* I've removed the brown wires from one of the thermostats (there's three of them; the black circular things with two contacts each, coming out of the boiler) and connected them to the AC switching wires on the SSR.
+* I've unplugged the white and black mains power cables from the main switch. I'll connect these to the USB power supply from the last image.
+
+![6](http://i.imgur.com/z6LtDr5.jpg)
+
+Here's the USB power supply installed. Now the mains power goes to both the main machine switch and the USB power supply, instead of *just* the main power switch. In this configuration, the Odroid or Raspberry Pi will always have power as long as the cord is plugged into the wall, even if the machine's main switch is off.
+
+![7](http://i.imgur.com/QS8wCSQ.jpg)
+
+I epoxied the thermocouple into a hole in the boiler. Epoxy was probably too permanent a solution to this. You can probably come up with something cleaner. But it works.
+
+![8](http://i.imgur.com/JMVEbyh.jpg)
+
+Here's the thermocouple amplifier all soldered up and ready to go.
+
+![9](http://i.imgur.com/LgUuCQH.jpg)
+
+The Odroid C2 with all the wires connected. The pins I'm using (top-to-bottom corresponds to left-to-right in the image:)
+
+Physical Pin Number | WiringPi Pin Number | Color | Name | Usage
+------------------- | ------------------- | ----- | ---- | -----
+1  | -  | Gray   | 3.3v     | Vin (Thermocouple Amplifier)
+6  | -  | Black  | 0v       | Ground (Thermocouple Amplifier)
+12 | 1  | Brown  | GPIO.238 | DO (Thermocouple Amplifier)
+16 | 4  | Red    | GPIO.236 | CS (Thermocouple Amplifier)
+18 | 5  | Orange | GPIO.233 | CLK (Thermocouple Amplifier)
+36 | 27 | White  | GPIO.218 | On/Off (SSR)
+39 | -  | Black  | 0v       | Ground (SSR)
+
+I'm not sure if the pins are the same on the Raspberry Pi 3. You may have to wire your Pi differently. The thing that matters is to make sure the ground wires are connected to ground on your device, the thermocouple amplifier Vin is connected to a +3.3 or 5v source on your device, and everything else is wired to a GPIO pin. Just make sure to change all the GPIO pin numbers in software if you picked differently.
+
+![10](http://i.imgur.com/xSbcVHx.jpg)
+
+My Odroid C2 mounted comfortably. I used electrical tape to mount it. Good enough.
+
+The wifi was very spotty with the module connected directly to the Odroid down there, so I used a USB extender to get the wifi adapter very close to the outer sheet metal at the top.
+
+![11](http://i.imgur.com/R5xS9CZ.jpg)
+
+That's it!
