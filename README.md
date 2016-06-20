@@ -19,7 +19,7 @@ The app logic, GPIO pin control (PWM), a PID controller, and the thermocouple dr
 
 Siri support (via [Homebridge](https://github.com/nfarina/homebridge)) requires Node.js, which causes a big dependency mess. If you don't want Siri support, everything else will work fine, and installation will be much easier for you.
 
-![Gif](http://i.imgur.com/TfDiOq5.gif)
+![Gif](https://s3.amazonaws.com/hal.bz/static/images/espressogif.gif)
 
 ### Parts List
 
@@ -91,16 +91,15 @@ As root:
         git clone --recursive https://github.com/WiringPi/WiringPi-Python.git
         pip install WiringPi2-Python/
 
-
-
-    cd ~
-    git clone https://github.com/hallee/espresso-arm.git
-    cd espresso-arm/
-    cp espresso.service /etc/systemd/system
-    systemctl start espresso
-    systemctl enable espresso
-    cd remi/
-    python setup.py install
+````
+cd ~
+git clone https://github.com/hallee/espresso-arm.git
+cd espresso-arm/remi/
+python setup.py install
+cp ../espresso.service /etc/systemd/system
+systemctl start espresso
+systemctl enable espresso
+````
 
 For automatic login to root (make sure you've changed your root password at least):
 
