@@ -19,7 +19,8 @@ The app logic, GPIO pin control (PWM), a PID controller, and the thermocouple dr
 
 Siri support (via [Homebridge](https://github.com/nfarina/homebridge)) requires Node.js, which causes a big dependency mess. If you don't want Siri support, everything else will work fine, and installation will be much easier for you.
 
-![Gif](https://s3.amazonaws.com/hal.bz/static/images/espressogif.gif)
+<!-- ![Gif](https://s3.amazonaws.com/hal.bz/static/images/espressogif.gif) -->
+![gif](espressogif.gif)
 
 ### Parts List
 
