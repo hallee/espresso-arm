@@ -1,0 +1,411 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>☕️ by hallee</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>☕️</h1>
+        <p>PID Espresso Controller + Siri Support for the Raspberry Pi or Odroid C2</p>
+
+        <p class="view"><a href="https://github.com/hallee/espresso-arm">View the Project on GitHub <small>hallee/espresso-arm</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/hallee/espresso-arm/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/hallee/espresso-arm/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/hallee/espresso-arm">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="espresso-arm-pid-espresso-controller--siri" class="anchor" href="#espresso-arm-pid-espresso-controller--siri" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>espresso-arm: PID Espresso Controller + Siri</h1>
+
+<h2>
+<a id="a-project-for-odroid-c2--raspberry-pi-3" class="anchor" href="#a-project-for-odroid-c2--raspberry-pi-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A Project for Odroid C2 / Raspberry Pi 3</h2>
+
+<p>This is an embedded ARM modification for home espresso machines to add:</p>
+
+<ul>
+<li>Accurate PID temperature control</li>
+<li>A pretty touch interface</li>
+<li>Control over the local network via a unified GUI</li>
+<li>Siri and HomeKit support for voice-activated heating</li>
+</ul>
+
+<p>I use an <a href="http://ameridroid.com/products/odroid-c2">Odroid C2</a> for this project. A Raspberry Pi 3 will work just as well. I also show installation in a rather uncommon Lelit espresso machine. This will work fine in your Rancilio Silvia and most other single-boiler machines, but you'll need to be comfortable figuring out the wiring. If you want specific build instructions for the Silvia, send me one!</p>
+
+<p>The Odroid C2 (or Raspberry Pi) hosts the control application on a local webserver. Attach a touchscreen and control your espresso machine there, or use the local web interface with any phone, tablet, or computer.</p>
+
+<p><img src="http://i.imgur.com/gbyqMFy.png" alt="Interface"></p>
+
+<p>The app logic, GPIO pin control (PWM), a PID controller, and the thermocouple driver are all implemented in Python. Even the GUI and local web server are generated with Python (<a href="https://github.com/dddomodossola/remi">Remi</a>).</p>
+
+<p>Siri support (via <a href="https://github.com/nfarina/homebridge">Homebridge</a>) requires Node.js, which causes a big dependency mess. If you don't want Siri support, everything else will work fine, and installation will be much easier for you.</p>
+
+
+
+<p><img src="espressogif.gif" alt="gif"></p>
+
+<h3>
+<a id="parts-list" class="anchor" href="#parts-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parts List</h3>
+
+<table>
+<thead>
+<tr>
+<th>Price</th>
+<th>Supplier (US)</th>
+<th>Name + Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$49</td>
+<td>Ameridroid</td>
+<td><a href="http://ameridroid.com/products/odroid-c2">Odroid C2 + USB to 2.5mm Power Adapter</a></td>
+</tr>
+<tr>
+<td>$15</td>
+<td>Adafruit</td>
+<td><a href="https://www.adafruit.com/products/269">Thermocouple Amplifier</a></td>
+</tr>
+<tr>
+<td>$10</td>
+<td>Adafruit</td>
+<td><a href="https://www.adafruit.com/products/270">Thermocouple</a></td>
+</tr>
+<tr>
+<td>$5</td>
+<td>Adafruit</td>
+<td><a href="https://www.adafruit.com/products/1468">Thermal Tape</a></td>
+</tr>
+<tr>
+<td>$10</td>
+<td>Amazon</td>
+<td><a href="https://smile.amazon.com/Samsung-Class-Adapter-MB-MG16EA-AM/dp/B014W1ZL3S/ref=sr_1_1?ie=UTF8&amp;qid=1466254153&amp;sr=8-1">SD Card</a></td>
+</tr>
+<tr>
+<td>$7</td>
+<td>Amazon</td>
+<td><a href="https://smile.amazon.com/gp/product/B00E1LC1VK/ref=od_aui_detailpages01?ie=UTF8&amp;psc=1">Solid State Relay (SSR)</a></td>
+</tr>
+<tr>
+<td>$5</td>
+<td>Amazon</td>
+<td><a href="https://smile.amazon.com/gp/product/B000NV2E6O/ref=od_aui_detailpages00?ie=UTF8&amp;psc=1">14 AWG Wire, Marine Grade</a></td>
+</tr>
+<tr>
+<td>$6</td>
+<td>Amazon</td>
+<td><a href="https://smile.amazon.com/gp/product/B00GMO98NI/ref=od_aui_detailpages01?ie=UTF8&amp;psc=1">Weatherproof Connectors</a></td>
+</tr>
+<tr>
+<td>$10</td>
+<td>Amazon</td>
+<td><a href="https://smile.amazon.com/gp/product/B00M5WLZDW/ref=od_aui_detailpages01?ie=UTF8&amp;psc=1">Breadboard Wires</a></td>
+</tr>
+<tr>
+<td>$9</td>
+<td>Amazon</td>
+<td><a href="https://smile.amazon.com/gp/product/B003MTTJOY/ref=od_aui_detailpages01?ie=UTF8&amp;psc=1">USB Wifi Adapter</a></td>
+</tr>
+<tr>
+<td>$4</td>
+<td>Amazon</td>
+<td><a href="https://smile.amazon.com/Tripp-Lite-Universal-Reversible-UR024-18N-RA/dp/B00ESZJEEG/ref=sr_1_29?s=electronics&amp;ie=UTF8&amp;qid=1465866122&amp;sr=1-29&amp;keywords=usb+extension">USB Extension Cable</a></td>
+</tr>
+<tr>
+<td>$<strong>130</strong>
+</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="tools" class="anchor" href="#tools" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tools</h3>
+
+<table>
+<thead>
+<tr>
+<th>Price</th>
+<th>Supplier (US)</th>
+<th>Name + Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$19</td>
+<td>Amazon</td>
+<td><a href="https://smile.amazon.com/gp/product/B0192PZD1Y/ref=od_aui_detailpages01?ie=UTF8&amp;psc=1">Soldering Iron</a></td>
+</tr>
+<tr>
+<td>$5</td>
+<td>Amazon</td>
+<td><a href="https://smile.amazon.com/gp/product/B00L2HRW92/ref=od_aui_detailpages01?ie=UTF8&amp;psc=1">Solder Remover</a></td>
+</tr>
+<tr>
+<td>$18</td>
+<td>Amazon</td>
+<td><a href="https://smile.amazon.com/gp/product/B000OQ21CA/ref=oh_aui_detailpage_o02_s00?ie=UTF8&amp;psc=1">Wire Strippers</a></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="software-installation" class="anchor" href="#software-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Software Installation</h2>
+
+<p>If you're starting from scratch, I recommend Arch Linux ARM. This guide assumes you're running Arch. If you already have a Linux distribution on your Odroid/Pi, and you're comfortable with Linux, you should be able to figure out how this translates to your platform.</p>
+
+<h3>
+<a id="installing-linux" class="anchor" href="#installing-linux" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installing Linux</h3>
+
+<p>Arch Linux ARM provides a great installation guide for each platform:</p>
+
+<ul>
+<li><a href="https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2">Odroid C2</a></li>
+<li>
+<p><a href="https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3">Raspberry Pi 3</a></p>
+
+<p>Follow the guide for your platform to get up-and-running with Arch Linux. You'll need another Linux machine to flash the SD card with Arch Linux, so hopefully you already run Linux somewhere.</p>
+</li>
+</ul>
+
+<p>Once you have bootable media with Arch Linux, you'll need to set up Wifi and get everything working while you have access to a keyboard &amp; monitor. I strongly suggest reading the Arch Linux Wiki's <a href="https://wiki.archlinux.org/index.php/General_recommendations">general recommentations</a> page.</p>
+
+<h3>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prerequisites</h3>
+
+<ul>
+<li><code>python</code></li>
+<li>
+<code>WiringPi</code> + <code>WiringPi-Python</code>
+</li>
+</ul>
+
+<p>If you want Siri support, you'll also need:</p>
+
+<ul>
+<li><code>python2</code></li>
+<li><code>avahi</code></li>
+<li>
+<code>nodejs</code> + <code>npm</code>
+</li>
+<li><a href="https://github.com/nfarina/homebridge"><code>Homebridge</code></a></li>
+<li><a href="https://github.com/rudders/homebridge-http"><code>homebridge-http</code></a></li>
+</ul>
+
+<h3>
+<a id="installing-espresso-arm" class="anchor" href="#installing-espresso-arm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installing espresso-arm</h3>
+
+<p>As root:</p>
+
+<pre><code>pacman -S git python python-pip base-devel
+</code></pre>
+
+<ul>
+<li>
+<p>On the Odroid:</p>
+
+<pre><code>pacman -S wiringc1
+git clone https://github.com/hardkernel/WiringPi2-Python.git
+pip install WiringPi2-Python/
+</code></pre>
+</li>
+<li>
+<p>On the Raspberry Pi:</p>
+
+<pre><code>pacman -S wiringpi
+git clone --recursive https://github.com/WiringPi/WiringPi-Python.git
+pip install WiringPi2-Python/
+</code></pre>
+</li>
+</ul>
+
+<pre><code>cd ~
+git clone https://github.com/hallee/espresso-arm.git
+cd espresso-arm/remi/
+python setup.py install
+cp ../espresso.service /etc/systemd/system
+systemctl start espresso
+systemctl enable espresso
+</code></pre>
+
+<p>For automatic login to root (make sure you've changed your root password at least):</p>
+
+<pre><code>systemctl edit getty@tty1
+[Service]
+ExecStart=
+ExecStart=-/usr/bin/agetty --autologin root --noclear %I $TERM
+</code></pre>
+
+<p>Now espresso-arm should be installed and running on a local webserver. The systemd unit files (<code>espresso.service</code>) will run the application automatically in the event of a reboot.
+You'll probably want to set up your device with a static IP.</p>
+
+<p>To access the interface from another device, browse to your Odroid or Pi's IP address at port 8081. In my case this is <code>192.168.1.83:8081</code>.</p>
+
+<h4>
+<a id="extra-steps-for-siri-support" class="anchor" href="#extra-steps-for-siri-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extra Steps for Siri Support</h4>
+
+<p>For Siri support, as root:</p>
+
+<pre><code>pacman -S python2 nodejs npm avahi
+
+systemctl start avahi-daemon
+systemctl enable avahi-daemon
+
+npm install -g homebridge --unsafe-perm
+npm install -g homebridge-http
+cp ~/espresso-arm/config.json ~/.homebridge/config.json
+
+cp ~/espresso-arm/espresso-siri.service /etc/systemd/system
+systemctl start espresso-siri
+systemctl enable espresso-siri
+</code></pre>
+
+<p>Finally, follow the <a href="https://github.com/nfarina/homebridge#adding-homebridge-to-ios">'Adding Homebridge to iOS'</a> guide to get this working on your phone/watch.</p>
+
+<h2>
+<a id="hardware-installation" class="anchor" href="#hardware-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hardware Installation</h2>
+
+<p>Proceed with caution. Make sure your espresso machine is unplugged completely before opening it. Every component in your espresso machine is likely wired with live AC mains power (even the lights in my machine are wired directly to mains). This is much more dangerous than working in a computer (with low-voltage DC components) and you <strong>will</strong> be shocked if you touch any components while the machine is on.</p>
+
+<p><img src="http://i.imgur.com/vJzehOn.jpg" alt="1"></p>
+
+<p>My Lelit PL041QE. It's not sold anymore. The machine doesn't really matter though. Wiring should be mostly the same in similarly-priced machines like the Rancilio Silvia.</p>
+
+<p><img src="http://i.imgur.com/Un4NWUI.jpg" alt="2"></p>
+
+<p>The factory wiring for my Lelit.</p>
+
+<p><img src="http://i.imgur.com/oUSbbAr.jpg" alt="3"></p>
+
+<p>This is how the SSR should be wired. Heavy gauge wire on the AC-switching output. You can just use breadboard wires on the DC side. Daisy-chain a few male-female breadboard wires if you need a longer run.</p>
+
+<p><img src="http://i.imgur.com/g3kOtSm.jpg" alt="4"></p>
+
+<p>Since my entire espresso machine is powered from mains, I needed to use a DC power supply. This splits the mains power coming into the machine; one leg goes to the USB power supply, and the other leg (blue female plugs) to the main switch of the espresso machine.</p>
+
+<p>Note: this USB power supply ended up causing a lot of issues with the GPIO and I was getting faulty readings from the thermocouple amplifier. I replaced it with an Apple 5V 1A brick and that solved my problems. Make sure you use a quality USB power supply here.</p>
+
+<p><img src="http://i.imgur.com/eyYWPdv.jpg" alt="5"></p>
+
+<p>There's a lot going on here:</p>
+
+<ul>
+<li>The SSR has been mounted on the left side of the machine with the thermal tape.</li>
+<li>I've removed the brown wires from one of the thermostats (there's three of them; the black circular things with two contacts each, coming out of the boiler) and connected them to the AC switching wires on the SSR. <strong>Important note:</strong> because of the thermostat I've bypassed, my main power switch <em>and the steam switch</em> must both be flipped for my software temperature control to work without tripping any other thermostats.</li>
+<li>I've unplugged the white and black mains power cables from the main switch. I'll connect these to the USB power supply from the last image.</li>
+</ul>
+
+<p><img src="http://i.imgur.com/z6LtDr5.jpg" alt="6"></p>
+
+<p>Here's the USB power supply installed. Now the mains power goes to both the main machine switch and the USB power supply, instead of <em>just</em> the main power switch. In this configuration, the Odroid or Raspberry Pi will always have power as long as the cord is plugged into the wall, even if the machine's main switch is off.</p>
+
+<p><img src="http://i.imgur.com/QS8wCSQ.jpg" alt="7"></p>
+
+<p>I epoxied the thermocouple into a hole in the boiler. Epoxy was probably too permanent a solution to this. You can probably come up with something cleaner. But it works.</p>
+
+<p><img src="http://i.imgur.com/JMVEbyh.jpg" alt="8"></p>
+
+<p>Here's the thermocouple amplifier all soldered up and ready to go.</p>
+
+<p><img src="http://i.imgur.com/LgUuCQH.jpg" alt="9"></p>
+
+<p>The Odroid C2 with all the wires connected. The pins I'm using (top-to-bottom corresponds to left-to-right in the image:)</p>
+
+<table>
+<thead>
+<tr>
+<th>Physical Pin Number</th>
+<th>WiringPi Pin Number</th>
+<th>Color</th>
+<th>Name</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>-</td>
+<td>Gray</td>
+<td>3.3v</td>
+<td>Vin (Thermocouple Amplifier)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>-</td>
+<td>Black</td>
+<td>0v</td>
+<td>Ground (Thermocouple Amplifier)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>1</td>
+<td>Brown</td>
+<td>GPIO.238</td>
+<td>DO (Thermocouple Amplifier)</td>
+</tr>
+<tr>
+<td>16</td>
+<td>4</td>
+<td>Red</td>
+<td>GPIO.236</td>
+<td>CS (Thermocouple Amplifier)</td>
+</tr>
+<tr>
+<td>18</td>
+<td>5</td>
+<td>Orange</td>
+<td>GPIO.233</td>
+<td>CLK (Thermocouple Amplifier)</td>
+</tr>
+<tr>
+<td>36</td>
+<td>27</td>
+<td>White</td>
+<td>GPIO.218</td>
+<td>On/Off (SSR)</td>
+</tr>
+<tr>
+<td>39</td>
+<td>-</td>
+<td>Black</td>
+<td>0v</td>
+<td>Ground (SSR)</td>
+</tr>
+</tbody>
+</table>
+
+<p>I'm not sure if the pins are the same on the Raspberry Pi 3. Run <code>gpio readall</code> to see your pin layout. You may have to wire your Pi differently. The thing that matters is to make sure the ground wires are connected to ground on your device, the thermocouple amplifier Vin is connected to a +3.3 or 5v source on your device, and everything else is wired to a GPIO pin. Just make sure to change all the GPIO pin numbers in software if you picked differently.</p>
+
+<p><img src="http://i.imgur.com/xSbcVHx.jpg" alt="10"></p>
+
+<p>My Odroid C2 mounted comfortably. I used electrical tape to mount it. Good enough.</p>
+
+<p>The wifi was very spotty with the module connected directly to the Odroid down there, so I used a USB extender to get the wifi adapter very close to the outer sheet metal at the top.</p>
+
+<p><img src="http://i.imgur.com/R5xS9CZ.jpg" alt="11"></p>
+
+<p>That's it!</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/hallee">hallee</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
