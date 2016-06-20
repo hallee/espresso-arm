@@ -19,6 +19,8 @@ The app logic, GPIO pin control (PWM), a PID controller, and the thermocouple dr
 
 Siri support (via [Homebridge](https://github.com/nfarina/homebridge)) requires Node.js, which causes a big dependency mess. If you don't want Siri support, everything else will work fine, and installation will be much easier for you.
 
+![Gif](http://i.imgur.com/TfDiOq5.gif)
+
 ### Parts List
 
 Price | Supplier (US) | Name + Link
@@ -79,15 +81,16 @@ As root:
 
 * On the Odroid:
 
-      pacman -S wiringc1
-      git clone https://github.com/hardkernel/WiringPi2-Python.git
-      pip install WiringPi2-Python/
+        pacman -S wiringc1
+        git clone https://github.com/hardkernel/WiringPi2-Python.git
+        pip install WiringPi2-Python/
 
 * On the Raspberry Pi:
 
-      pacman -S wiringpi
-      git clone --recursive https://github.com/WiringPi/WiringPi-Python.git
-      pip install WiringPi2-Python/
+        pacman -S wiringpi
+        git clone --recursive https://github.com/WiringPi/WiringPi-Python.git
+        pip install WiringPi2-Python/
+
 
 
     cd ~
@@ -155,7 +158,7 @@ Note: this USB power supply ended up causing a lot of issues with the GPIO and I
 There's a lot going on here:
 
 * The SSR has been mounted on the left side of the machine with the thermal tape.
-* I've removed the brown wires from one of the thermostats (there's three of them; the black circular things with two contacts each, coming out of the boiler) and connected them to the AC switching wires on the SSR. **Important note:** because of the thermostat I've bypassed, my main power switch *and the steam switch* must both be flipped for my software temperature control to work without tripping any other thermostats. 
+* I've removed the brown wires from one of the thermostats (there's three of them; the black circular things with two contacts each, coming out of the boiler) and connected them to the AC switching wires on the SSR. **Important note:** because of the thermostat I've bypassed, my main power switch *and the steam switch* must both be flipped for my software temperature control to work without tripping any other thermostats.
 * I've unplugged the white and black mains power cables from the main switch. I'll connect these to the USB power supply from the last image.
 
 ![6](http://i.imgur.com/z6LtDr5.jpg)
@@ -184,7 +187,7 @@ Physical Pin Number | WiringPi Pin Number | Color | Name | Usage
 36 | 27 | White  | GPIO.218 | On/Off (SSR)
 39 | -  | Black  | 0v       | Ground (SSR)
 
-I'm not sure if the pins are the same on the Raspberry Pi 3. You may have to wire your Pi differently. The thing that matters is to make sure the ground wires are connected to ground on your device, the thermocouple amplifier Vin is connected to a +3.3 or 5v source on your device, and everything else is wired to a GPIO pin. Just make sure to change all the GPIO pin numbers in software if you picked differently.
+I'm not sure if the pins are the same on the Raspberry Pi 3. Run `gpio readall` to see your pin layout. You may have to wire your Pi differently. The thing that matters is to make sure the ground wires are connected to ground on your device, the thermocouple amplifier Vin is connected to a +3.3 or 5v source on your device, and everything else is wired to a GPIO pin. Just make sure to change all the GPIO pin numbers in software if you picked differently.
 
 ![10](http://i.imgur.com/xSbcVHx.jpg)
 
