@@ -110,7 +110,10 @@ For automatic login to root (make sure you've changed your root password at leas
     ExecStart=-/usr/bin/agetty --autologin root --noclear %I $TERM
 
 
+Now espresso-arm should be installed and running on a local webserver. The systemd unit files (`espresso.service`) will run the application automatically in the event of a reboot.
+You'll probably want to set up your device with a static IP.
 
+To access the interface from another device, browse to your Odroid or Pi's IP address at port 8081. In my case this is `192.168.1.83:8081`.
 
 #### Extra Steps for Siri Support
 
