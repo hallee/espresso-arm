@@ -25,7 +25,6 @@ class SoftwarePWM:
         self.pin = pinNum
 
     def controlPin(self, onTime, offTime, pin):
-        wp.wiringPiSetup()
         wp.pinMode(pin, 1)
 
         while not self.stop:
