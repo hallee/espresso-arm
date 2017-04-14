@@ -732,8 +732,14 @@ function uploadFile(widgetID, eventSuccess, eventFail, eventData, file){
         if (function == '/Espresso/status'):
             isOn = self.client.getStatus()
             if isOn:
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
                 self.send_response(1)
             else:
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
                 self.send_response(0)
         if (function == '/') or (not function) or (function == '/Espresso/on') or (function == '/Espresso/off'):
             # build the root page once if necessary
