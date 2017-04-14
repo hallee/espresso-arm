@@ -729,6 +729,12 @@ function uploadFile(widgetID, eventSuccess, eventFail, eventData, file){
         self.log.debug('get: %s' % function)
         static_file = re.match(r"^/*res\/(.*)$", function)
         attr_call = re.match(r"^\/*(\w+)\/(\w+)\?{0,1}(\w*\={1}\w+\${0,1})*$", function)
+        if (function == '/Espresso/status'):
+            isOn = self.client.getStatus()
+            if isOn:
+                self.send_response(1)
+            else:
+                self.send_response(0)
         if (function == '/') or (not function) or (function == '/Espresso/on') or (function == '/Espresso/off'):
             # build the root page once if necessary
             should_call_main = not hasattr(self.client, 'root')
@@ -795,8 +801,7 @@ function uploadFile(widgetID, eventSuccess, eventFail, eventData, file){
                     self.send_response(503)
                     return
             elif function == 'status':
-                isOn = False
-                self.client.getStatus()
+                isOn = self.client.getStatus()
                 if isOn:
                     self.send_response(1)
                 else:
