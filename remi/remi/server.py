@@ -729,30 +729,29 @@ function uploadFile(widgetID, eventSuccess, eventFail, eventData, file){
         self.log.debug('get: %s' % function)
         static_file = re.match(r"^/*res\/(.*)$", function)
         attr_call = re.match(r"^\/*(\w+)\/(\w+)\?{0,1}(\w*\={1}\w+\${0,1})*$", function)
-        if (function == '/') or (not function) or (function == '/Espresso/on') or (function == '/Espresso/off') or (function == '/Espresso/status'):
+        if (function == '/') or (not function) or (function == '/Espresso/on') or (function == '/Espresso/off'):
             # build the root page once if necessary
             should_call_main = not hasattr(self.client, 'root')
             if should_call_main:
                 self.client.root = self.main(*self.server.userdata)
-
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write(encode_text("<!DOCTYPE html>\n"))
-            self.wfile.write(encode_text("<html>\n<head>\n"))
-            self.wfile.write(encode_text(
-                """<meta content='text/html;charset=utf-8' http-equiv='Content-Type'>
-                <meta content='utf-8' http-equiv='encoding'>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">"""))
-            self.wfile.write(encode_text(self.client.css_header))
-            self.wfile.write(encode_text(self.client.html_header))
-            self.wfile.write(encode_text(self.client.script_header))
-            self.wfile.write(encode_text("\n</head>\n<body>\n"))
-            # render the HTML replacing any local absolute references to the correct IP of this instance
-            html = self.client.root.repr(self.client)
-            self.wfile.write(encode_text(html))
-            self.wfile.write(encode_text(self.client.html_footer))
-            self.wfile.write(encode_text("</body>\n</html>"))
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write(encode_text("<!DOCTYPE html>\n"))
+                self.wfile.write(encode_text("<html>\n<head>\n"))
+                self.wfile.write(encode_text(
+                    """<meta content='text/html;charset=utf-8' http-equiv='Content-Type'>
+                    <meta content='utf-8' http-equiv='encoding'>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">"""))
+                self.wfile.write(encode_text(self.client.css_header))
+                self.wfile.write(encode_text(self.client.html_header))
+                self.wfile.write(encode_text(self.client.script_header))
+                self.wfile.write(encode_text("\n</head>\n<body>\n"))
+                # render the HTML replacing any local absolute references to the correct IP of this instance
+                html = self.client.root.repr(self.client)
+                self.wfile.write(encode_text(html))
+                self.wfile.write(encode_text(self.client.html_footer))
+                self.wfile.write(encode_text("</body>\n</html>"))
         if static_file:
             static_paths = [os.path.join(os.path.dirname(__file__), 'res')]
             static_paths.extend(self._app_args.get('static_paths', ()))
@@ -796,7 +795,8 @@ function uploadFile(widgetID, eventSuccess, eventFail, eventData, file){
                     self.send_response(503)
                     return
             elif function == 'status':
-                isOn = self.client.getStatus()
+                isOn = False
+                self.client.getStatus()
                 if isOn:
                     self.send_response(1)
                 else:

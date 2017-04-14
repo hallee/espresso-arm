@@ -9,14 +9,14 @@
     "description": "HomeBridge HTTP Status Control",
 
     "accessories": [ {
-	        "accessory": "Http",
-                "name": "espresso machine",
-			"switchHandling": "realtime",
-				"http_method": "GET",
-				"on_url":      "http://0.0.0.0:8081/Espresso/on",
-				"off_url":     "http://0.0.0.0:8081/Espresso/off",
-				"status_url":  "http://0.0.0.0:8081/Espresso/status",
-			"service": "Switch"
+        "accessory": "Http",
+        "name": "espresso machine",
+        "switchHandling": "realtime",
+        "http_method": "GET",
+        "on_url":      "http://0.0.0.0:8081/Espresso/on",
+        "off_url":     "http://0.0.0.0:8081/Espresso/off",
+        "status_url":  "http://0.0.0.0:8081/Espresso/status",
+        "service": "Switch"
        }
     ]
 }
