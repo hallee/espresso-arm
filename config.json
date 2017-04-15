@@ -5,18 +5,14 @@
         "port": 51826,
         "pin": "031-45-154"
     },
-
     "description": "HomeBridge HTTP Status Control",
-
-    "accessories": [ {
-        "accessory": "Http",
-        "name": "espresso machine",
-        "switchHandling": "realtime",
-        "http_method": "GET",
-        "on_url":      "http://0.0.0.0:8081/Espresso/on",
-        "off_url":     "http://0.0.0.0:8081/Espresso/off",
-        "status_url":  "http://0.0.0.0:8081/Espresso/status",
-        "service": "Switch"
-       }
+    "accessories": [{
+        "accessory": "Switcheroo",
+        "type": "switch",
+        "name": "Espresso Machine",
+        "host": "http://0.0.0.0:8081/Espresso",
+        "on"  : "/on",
+        "off" : "/off"
+        }
     ]
 }

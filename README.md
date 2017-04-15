@@ -72,7 +72,7 @@ If you want Siri support, you'll also need:
 * `avahi`
 * `nodejs` + `npm`
 * [`Homebridge`](https://github.com/nfarina/homebridge)
-* [`homebridge-http`](https://github.com/rudders/homebridge-http)
+* [`homebridge-switcheroo`](https://github.com/chriszelazo/homebridge-switcheroo)
 
 ### Installing espresso-arm
 
@@ -113,7 +113,7 @@ For automatic login to root (make sure you've changed your root password at leas
 Now espresso-arm should be installed and running on a local webserver. The systemd unit files (`espresso.service`) will run the application automatically in the event of a reboot.
 You'll probably want to set up your device with a static IP.
 
-To access the interface from another device, browse to your Odroid or Pi's local IP address at port 8081. In my case this is `192.168.1.83:8081`. You can find your local IP address with `ifconfig wlan0`.
+To access the interface from another device, browse to your Odroid or Pi's local IP address at port 8081. In my case this is `10.0.0.8:8081`. You can find your local IP address with `ifconfig wlan0`.
 
 #### Extra Steps for Siri Support
 
@@ -125,7 +125,7 @@ For Siri support, as root:
     systemctl enable avahi-daemon
 
     npm install -g homebridge --unsafe-perm
-    npm install -g homebridge-http
+    npm install -g homebridge-switcheroo
     cp ~/espresso-arm/config.json ~/.homebridge/config.json
 
     cp ~/espresso-arm/espresso-siri.service /etc/systemd/system
