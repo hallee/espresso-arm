@@ -735,12 +735,16 @@ function uploadFile(widgetID, eventSuccess, eventFail, eventData, file){
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
-                self.send_response(1)
+                # self.send_response(1)
+                self.wfile.write(encode_text("1"))
+                return
             else:
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
-                self.send_response(0)
+                # self.send_response(0)
+                self.wfile.write(encode_text("0"))
+                return
         if (function == '/') or (not function) or (function == '/Espresso/on') or (function == '/Espresso/off'):
             # build the root page once if necessary
             should_call_main = not hasattr(self.client, 'root')
