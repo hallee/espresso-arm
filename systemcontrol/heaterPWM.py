@@ -6,7 +6,10 @@ This should work fine on the Raspberry Pi GPIO as well, though.
 """
 
 import time
-import wiringpi2 as wp
+try:
+    import wiringpi2 as wp
+except ImportError:
+    import wiringpi as wp
 from multiprocessing import Process, Value
 
 class SoftwarePWM:

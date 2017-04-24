@@ -11,7 +11,10 @@ https://github.com/adafruit/Adafruit-MAX31855-library/blob/master/Adafruit_MAX31
 """
 
 import time
-import wiringpi2 as wp
+try:
+    import wiringpi2 as wp
+except ImportError:
+    import wiringpi as wp
 from multiprocessing import Value
 
 class SoftwareSPI:
