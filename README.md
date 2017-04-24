@@ -1,6 +1,6 @@
 # espresso-arm: PID Espresso Controller + Siri
 
-## A Project for Odroid C2 / Raspberry Pi 3
+## A Project for Raspberry Pi / Odroid C2
 
 This is an embedded ARM modification for home espresso machines to add:
 
@@ -9,7 +9,7 @@ This is an embedded ARM modification for home espresso machines to add:
 * Control over the local network via a unified GUI
 * Siri and HomeKit support for voice-activated heating
 
-I use an [Odroid C2](http://ameridroid.com/products/odroid-c2) for this project. A Raspberry Pi 3 will work just as well. I also show installation in a rather uncommon Lelit espresso machine. This will work fine in your Rancilio Silvia and most other single-boiler machines, but you'll need to be comfortable figuring out the wiring. If you want specific build instructions for the Silvia, send me one!
+I originally used an [Odroid C2](http://ameridroid.com/products/odroid-c2) for this project. A Raspberry Pi will work just as well; I've recently tried the project with a Pi Zero W. I also show installation in a rather uncommon Lelit espresso machine. This will work fine in your Rancilio Silvia and most other single-boiler machines, but you'll need to be comfortable figuring out the wiring. If you want specific build instructions for the Silvia, send me one!
 
 The Odroid C2 (or Raspberry Pi) hosts the control application on a local webserver. Attach a touchscreen and control your espresso machine there, or use the local web interface with any phone, tablet, or computer.
 
@@ -17,7 +17,7 @@ The Odroid C2 (or Raspberry Pi) hosts the control application on a local webserv
 
 The app logic, GPIO pin control (PWM), a PID controller, and the thermocouple driver are all implemented in Python. Even the GUI and local web server are generated with Python ([Remi](https://github.com/dddomodossola/remi)).
 
-Siri support (via [Homebridge](https://github.com/nfarina/homebridge)) requires Node.js, which causes a big dependency mess. If you don't want Siri support, everything else will work fine, and installation will be much easier for you.
+Siri support (via [Homebridge](https://github.com/nfarina/homebridge)) requires Node.js. If you don't want Siri support, everything else will work fine, and installation will be much easier for you.
 
 <!-- ![Gif](https://s3.amazonaws.com/hal.bz/static/images/espressogif.gif) -->
 ![gif](espressogif.gif)
@@ -26,18 +26,16 @@ Siri support (via [Homebridge](https://github.com/nfarina/homebridge)) requires 
 
 Price | Supplier (US) | Name + Link
 ----- | ------------- | ----
-$49 | Ameridroid | [Odroid C2 + USB to 2.5mm Power Adapter](http://ameridroid.com/products/odroid-c2)
+$10 | Adafruit   | [Raspberry Pi Zero W](https://www.adafruit.com/product/3400)
 $15 | Adafruit   | [Thermocouple Amplifier](https://www.adafruit.com/products/269)
 $10 | Adafruit   | [Thermocouple](https://www.adafruit.com/products/270)
 $5  | Adafruit   | [Thermal Tape](https://www.adafruit.com/products/1468)
 $10 | Amazon     | [SD Card](https://smile.amazon.com/Samsung-Class-Adapter-MB-MG16EA-AM/dp/B014W1ZL3S/ref=sr_1_1?ie=UTF8&qid=1466254153&sr=8-1)
-$7  | Amazon     | [Solid State Relay (SSR)](https://smile.amazon.com/gp/product/B00E1LC1VK/ref=od_aui_detailpages01?ie=UTF8&psc=1)
-$5  | Amazon     | [14 AWG Wire, Marine Grade](https://smile.amazon.com/gp/product/B000NV2E6O/ref=od_aui_detailpages00?ie=UTF8&psc=1)
+$9  | Amazon     | [Solid State Relay (SSR)](https://smile.amazon.com/gp/product/B00E1LC1VK/ref=od_aui_detailpages01?ie=UTF8&psc=1)
+$9  | Amazon     | [14 AWG Wire, Marine Grade](https://smile.amazon.com/gp/product/B000NV2E6O/ref=od_aui_detailpages00?ie=UTF8&psc=1)
 $6  | Amazon     | [Weatherproof Connectors](https://smile.amazon.com/gp/product/B00GMO98NI/ref=od_aui_detailpages01?ie=UTF8&psc=1)
 $10 | Amazon     | [Breadboard Wires](https://smile.amazon.com/gp/product/B00M5WLZDW/ref=od_aui_detailpages01?ie=UTF8&psc=1)
-$9  | Amazon     | [USB Wifi Adapter](https://smile.amazon.com/gp/product/B003MTTJOY/ref=od_aui_detailpages01?ie=UTF8&psc=1)
-$4  | Amazon     | [USB Extension Cable](https://smile.amazon.com/Tripp-Lite-Universal-Reversible-UR024-18N-RA/dp/B00ESZJEEG/ref=sr_1_29?s=electronics&ie=UTF8&qid=1465866122&sr=1-29&keywords=usb+extension)
-$**130**    |            |  
+$**84**    |            |  
 
 ### Tools
 
@@ -55,6 +53,7 @@ If you're starting from scratch, I recommend Arch Linux ARM. This guide assumes 
 
 Arch Linux ARM provides a great installation guide for each platform:
 
+ * [Raspberry Pi (Zero)](https://archlinuxarm.org/platforms/armv6/raspberry-pi)
  * [Odroid C2](https://archlinuxarm.org/platforms/armv8/amlogic/odroid-c2)
  * [Raspberry Pi 3](https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3)
 
@@ -65,7 +64,7 @@ Once you have bootable media with Arch Linux, you'll need to set up Wifi and get
 ### Prerequisites
 
 * `python`
-* `WiringPi` + `WiringPi-Python`
+* `wiringpi` + `WiringPi-Python`
 
 If you want Siri support, you'll also need:
 * `python2`
@@ -78,18 +77,21 @@ If you want Siri support, you'll also need:
 
 As root:
 
-    pacman -S git python python-pip base-devel
+    pacman -S git python python-pip base-devel swig
+
+* On the Raspberry Pi:
+
+        pacman -S wiringpi
+        git clone --recursive https://github.com/neuralpi/WiringPi-Python/
+        cd WiringPi-Python/
+        swig -python wiringpi.i
+        cd ../
+        pip install WiringPi-Python/
 
 * On the Odroid:
 
         pacman -S wiringc1
         git clone https://github.com/hardkernel/WiringPi2-Python.git
-        pip install WiringPi2-Python/
-
-* On the Raspberry Pi:
-
-        pacman -S wiringpi
-        git clone --recursive https://github.com/WiringPi/WiringPi-Python.git
         pip install WiringPi2-Python/
 
 ````
@@ -113,13 +115,13 @@ For automatic login to root (make sure you've changed your root password at leas
 Now espresso-arm should be installed and running on a local webserver. The systemd unit files (`espresso.service`) will run the application automatically in the event of a reboot.
 You'll probably want to set up your device with a static IP.
 
-To access the interface from another device, browse to your Odroid or Pi's local IP address at port 8081. In my case this is `10.0.0.8:8081`. You can find your local IP address with `ifconfig wlan0`.
+To access the interface from another device, browse to your Odroid or Pi's local IP address at port 8081. In my case this is `10.0.0.8:8081`. You can find your local IP address with `ifconfig`.
 
 #### Extra Steps for Siri Support
 
 For Siri support, as root:
 
-    pacman -S python2 nodejs npm avahi
+    pacman -S python2 nodejs npm avahi nss-mdns
 
     systemctl start avahi-daemon
     systemctl enable avahi-daemon
@@ -182,7 +184,7 @@ The Odroid C2 with all the wires connected. The pins I'm using (top-to-bottom co
 
 Physical Pin Number | WiringPi Pin Number | Color | Name | Usage
 ------------------- | ------------------- | ----- | ---- | -----
-1  | -  | Gray   | 3.3v     | Vin (Thermocouple Amplifier)
+2  | -  | Gray   | 5.0v     | Vin (Thermocouple Amplifier)
 6  | -  | Black  | 0v       | Ground (Thermocouple Amplifier)
 12 | 1  | Brown  | GPIO.238 | DO (Thermocouple Amplifier)
 16 | 4  | Red    | GPIO.236 | CS (Thermocouple Amplifier)
@@ -190,7 +192,7 @@ Physical Pin Number | WiringPi Pin Number | Color | Name | Usage
 36 | 27 | White  | GPIO.218 | On/Off (SSR)
 39 | -  | Black  | 0v       | Ground (SSR)
 
-I'm not sure if the pins are the same on the Raspberry Pi 3. Run `gpio readall` to see your pin layout. You may have to wire your Pi differently. The thing that matters is to make sure the ground wires are connected to ground on your device, the thermocouple amplifier Vin is connected to a +3.3 or 5v source on your device, and everything else is wired to a GPIO pin. Just make sure to change all the GPIO pin numbers in software if you picked differently.
+I've confirmed that these pins are the same on the Raspberry Pi Zero W. Run `gpio readall` to see your pin layout. The thing that matters is to make sure the ground wires are connected to ground on your device, the thermocouple amplifier Vin is connected to a +3.3 or +5v source on your device, and everything else is wired to a GPIO pin. Just make sure to change all the GPIO pin numbers in software if you picked differently.
 
 ![10](http://i.imgur.com/xSbcVHx.jpg)
 
