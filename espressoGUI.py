@@ -30,6 +30,7 @@ class Espresso(App):
         verticalContainer = gui.Widget(width='100%', layout_orientation=gui.Widget.LAYOUT_VERTICAL)
         verticalContainer.style['text-align'] = 'center'
         verticalContainer.style['margin'] = '2em auto'
+        verticalContainer.style['height'] = '100%'
 
         subContainer = gui.Widget(width='auto', height=160)
         subContainer.style['text-align'] = 'center'
